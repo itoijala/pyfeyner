@@ -25,7 +25,7 @@ class Arrow(pyx.deco.deco, pyx.attr.attr):
         arrowtopos = self.pos * dp.path.arclen()+0.5*self.size
         arrowtopath = dp.path.split(arrowtopos)[0]
         arrowpath = pyx.deco._arrowhead(arrowtopath, self.pos*dp.path.arclen(),
-                                        1, self.size, 45, constrictionlen)
+                                        1, self.size, 45, True, constrictionlen)
         dp.ornaments.fill(arrowpath)
         return dp
 
@@ -140,7 +140,7 @@ class ParallelArrow(Visible):
                 arrowpath = pyx.deco._arrowhead(arrowtopath,
                                                 linepath.arclen(),
                                                 1, self.size, 45,
-                                                constrictionlen)
+                                                True, constrictionlen)
                 canvas.fill(arrowpath)
                 path = pyx.deformer.parallel(-(n+1)/2. * dist).deform(arrowtopath)
                 defo = pyx.deformer.parallel(dist)

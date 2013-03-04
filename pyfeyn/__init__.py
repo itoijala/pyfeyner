@@ -24,7 +24,7 @@ try:
 
     ## TeX stuff
     pyx.text.defaulttexrunner.set(mode="latex")
-    if pyx.pykpathsea.find_file("hepnicenames.sty", pyx.pykpathsea.kpse_tex_format):
+    if pyx.filelocator.kpsewhich().openers("hepnicenames.sty", ["tex"], "", ""):
         pyx.text.defaulttexrunner.preamble(r"\usepackage{hepnicenames}")
     else:
         print "Warning: hepnames LaTeX package not found!"
