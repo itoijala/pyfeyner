@@ -45,7 +45,7 @@ arclength = mysubpath.arclen()
 lenperseg = arclength/float(numsegs)
 lengths = [i*lenperseg for i in range(0,numsegs+1)]
 
-## Calc omega specifically for this function (period length = 
+## Calc omega specifically for this function (period length =
 omega = 3.14 * unit.cm / arclength * numhalfperiods
 #print omega
 

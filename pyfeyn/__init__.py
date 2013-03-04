@@ -27,7 +27,6 @@ __date__ = "$Date$"
 __copyright__ = "Copyright (c) 2007 Andy Buckley"
 __license__ = "GPL"
 
-
 ## Import PyX and set up some things
 try:
     import pyx

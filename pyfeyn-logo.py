@@ -20,9 +20,7 @@
 from pyx import *
 c = canvas.canvas()
 
-
 sep = 0.2
-
 
 p1 = path.path(
     path.moveto(-3, -4),
@@ -42,7 +40,6 @@ t1 = path.path(
     path.lineto(14+sep/2.0,-4-sep)
     )
 
-
 p2 = path.path(
     path.moveto(14, 4),
     path.lineto(10+sep, 0+sep),
@@ -61,13 +58,10 @@ t2 = path.path(
     path.lineto(-3-sep/2.0,4+sep)
     )
 
-
 c.stroke(p1, [color.cmyk.RoyalBlue, style.linewidth.THICK, deco.earrow.LARge, deco.barrow])
 c.stroke(t1, [color.cmyk.RoyalBlue, style.linewidth.thick])
 
-
 c.stroke(p2, [color.cmyk.MidnightBlue, style.linewidth.THICK, deco.earrow.LARge, deco.barrow])
 c.stroke(t2, [color.cmyk.MidnightBlue, style.linewidth.thick])
-
 
 c.writePDFfile("pyfeyn-logo")

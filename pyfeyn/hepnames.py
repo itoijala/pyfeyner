@@ -186,7 +186,7 @@ Kaons_dict = {
 "Kplus" : "\PKp", "K+" : "\PKp",
 "Kminus" : "\PKm", "K-" : "\PKm",
 "Kzero" : "\PKz", "K0" : "\PKz",
-"Kshort" : "\PKzS", "Ks" : "\PKzS", "KS" : "\PKzS", 
+"Kshort" : "\PKzS", "Ks" : "\PKzS", "KS" : "\PKzS",
 "Klong" : "\PKzL", "Kl" : "\PKzL", "KL" : "\PKzL",
 "Kstar" : "\PKst",
 "APK" : "\PaKz", "antiK" : "\PaKz",
@@ -721,13 +721,13 @@ SUSYparticles_dict = {
 "Bino" : "\PSB",
 "SWplus" : "\PSWp" , "SW+" : "\PSWp", # wino
 "SWminus" : "\PSWm" , "SW-" : "\PSWm",
-"SWino" : "\PSW", "Wino" : "\PSW", 
-"SWinopm" : "\PSWpm", "Winopm" : "\PSWpm", 
-"SWinomp" : "\PSWmp", "Winomp" : "\PSWmp", 
+"SWino" : "\PSW", "Wino" : "\PSW",
+"SWinopm" : "\PSWpm", "Winopm" : "\PSWpm",
+"SWinomp" : "\PSWmp", "Winomp" : "\PSWmp",
 "SZzero" : "\PSZz", "SZ0" : "\PSZz",
 "Sphoton" : "\PSgg", # photino
 "Sphotino" : "\PSgg",
-"photino" : "\PSgg", 
+"photino" : "\PSgg",
 "Smu" : "\PSgm", # smuon
 "Snu" : "\PSgn", # sneutrino
 "Stau" : "\PSgt", # stau
@@ -737,7 +737,7 @@ SUSYparticles_dict = {
 "Sneutralino" : "\PSgxz", # neutralino
 "neutralino" : "\PSgxz",
 "SneutralinoOne" : "\PSgxzi", # lightest neutralino
-"neutralinoOne" : "\PSgxzi", 
+"neutralinoOne" : "\PSgxzi",
 "SneutralinoTwo" : "\PSgxzii", # next-to-lightest neutralino
 "neutralinoTwo" : "\PSgxzii",
 "Sgluino" : "\PSg", "gluino" : "\PSg", # gluino
@@ -761,7 +761,6 @@ SUSYparticles_dict = {
 "AStop" : "\PaSqt", "antiStop" : "\PaSqt"
 }
 hepnames_dict.update(SUSYparticles_dict)
-
 
 ## Gauge boson type testing
 
@@ -864,4 +863,3 @@ def hep_linestyle(name):
         return "weak" # wavy or zigzag
     else:
         return "ask_user" # can't determine automatically
-

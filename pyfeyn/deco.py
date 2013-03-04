@@ -24,7 +24,6 @@ from pyfeyn.diagrams import FeynDiagram
 from pyfeyn.utils import Visible
 from pyfeyn import config
 
-
 ## Arrow decorator class
 class Arrow(pyx.deco.deco, pyx.attr.attr):
     """Arrow for Feynman diagram lines"""
@@ -35,7 +34,7 @@ class Arrow(pyx.deco.deco, pyx.attr.attr):
         self.size = size
         self.angle = angle
         self.constriction = constriction
-        
+
     def decorate(self, dp, texrunner=pyx.text.defaulttexrunner):
         """Attach arrow to a path (usually a line)."""
         dp.ensurenormpath()
@@ -47,7 +46,6 @@ class Arrow(pyx.deco.deco, pyx.attr.attr):
                                         1, self.size, 45, True, constrictionlen)
         dp.ornaments.fill(arrowpath)
         return dp
-
 
 class FreeArrow(Visible):
     """Arrow not attached to any line in a diagram."""
@@ -68,7 +66,7 @@ class FreeArrow(Visible):
         self.angle = angle
         self.constriction = constriction
         ## Add this to the current diagram automatically
-        FeynDiagram.currentDiagram.add(self)        
+        FeynDiagram.currentDiagram.add(self)
 
     def draw(self, canvas):
         """Draw this arrow on the supplied canvas."""
@@ -80,7 +78,6 @@ class FreeArrow(Visible):
         styles = [pyx.deco.earrow(size=self.size, angle=self.angle,
                         constriction=self.constriction)]
         canvas.stroke(linepath.path,styles)
-
 
 class ParallelArrow(Visible):
     """Arrow running parallel to a line, for momenta, helicities etc."""
@@ -103,10 +100,10 @@ class ParallelArrow(Visible):
     def draw(self, canvas):
         """Draw this arrow on the supplied canvas."""
         p = self.line.getPath()
-        posparam = p.begin() + self.pos * p.arclen() 
+        posparam = p.begin() + self.pos * p.arclen()
         x, y = self.line.fracpoint(self.pos).getXY()
         arrx, arry = self.line.fracpoint(self.pos+self.length/2./p.arclen()).getXY()
-        endx, endy = self.line.fracpoint(self.pos-self.length/2./p.arclen()).getXY() 
+        endx, endy = self.line.fracpoint(self.pos-self.length/2./p.arclen()).getXY()
 
         ## Calculate the displacement from the line
         displacement = self.displace
@@ -180,8 +177,6 @@ class ParallelArrow(Visible):
                             constriction=self.constriction)]
             canvas.stroke(linepath.path,styles)
 
-
-
 ## Label
 class Label(Visible):
     """General label, unattached to any diagram elements"""
@@ -208,8 +203,6 @@ class Label(Visible):
         t = pyx.text.defaulttexrunner.text(self.x, self.y, self.text, textattrs)
         canvas.insert(t)
 
-
-
 ## PointLabel
 class PointLabel(Label):
     """Label attached to points on the diagram"""
@@ -222,17 +215,14 @@ class PointLabel(Label):
         self.point = point
         self.textattrs = []
 
-
     def getPoint(self):
         """Get the point associated with this label."""
         return self.point
-
 
     def setPoint(self, point):
         """Set the point associated with this label."""
         self.point = point
         return self
-
 
     def draw(self, canvas):
         """Draw this label on the supplied canvas."""
@@ -247,8 +237,6 @@ class PointLabel(Label):
         t = pyx.text.defaulttexrunner.text(x, y, self.text, textattrs)
         canvas.insert(t)
 
-
-
 ## LineLabel
 class LineLabel(Label):
     """Label for Feynman diagram lines"""
@@ -262,17 +250,14 @@ class LineLabel(Label):
         self.line = line
         self.textattrs = []
 
-
     def getLine(self):
         """Get the associated line."""
         return self.line
-
 
     def setLine(self, line):
         """Set the associated line."""
         self.line = line
         return self
-
 
     def draw(self, canvas):
         """Draw this label on the supplied canvas."""
@@ -306,7 +291,7 @@ class LineLabel(Label):
             normal = normal.transformed(pyx.trafo.rotate(180, x, y))
             nx, ny = normal.atend()
         if displacement < 0:
-            normal = normal.transformed(pyx.trafo.rotate(180, x, y)) 
+            normal = normal.transformed(pyx.trafo.rotate(180, x, y))
             nx, ny = normal.atend()
         if config.getOptions().VDEBUG:
             FeynDiagram.currentDiagram.currentCanvas.stroke(normal)
@@ -322,4 +307,3 @@ class LineLabel(Label):
         #            math.cos(self.angle * math.pi/180),
         #            math.sin(self.angle * math.pi/180))
         canvas.insert(t)
-

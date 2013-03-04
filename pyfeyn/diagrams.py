@@ -22,10 +22,9 @@
 import pyx
 from pyfeyn import config
 
-
 ## Diagram class
 class FeynDiagram:
-    """The main PyFeyn diagram class."""    
+    """The main PyFeyn diagram class."""
     currentDiagram = None
 
     def __init__(self, objects=None, canvas=None):
@@ -39,7 +38,6 @@ class FeynDiagram:
         else:
            self.currentCanvas = canvas
         FeynDiagram.currentDiagram = self
-
 
     def add(self, *objs):
         """Add an object to the diagram."""
@@ -58,7 +56,6 @@ class FeynDiagram:
                        self.highestautolayer + offset)
             self.__objs.append(obj)
 
-
     def drawToCanvas(self):
         """Draw the components of this diagram in a well-defined order."""
         if config.getOptions().DEBUG:
@@ -72,7 +69,7 @@ class FeynDiagram:
             drawingobjs.sort()
         except:
             pass
-            
+
         ## Draw each object
         for obj in drawingobjs:
             if config.getOptions().DEBUG:
@@ -81,11 +78,9 @@ class FeynDiagram:
 
         return self.currentCanvas
 
-
     def draw(self, outfile):
         """Draw the diagram to a file, with the filetype (EPS or PDF)
         derived from the file extension."""
         c = self.drawToCanvas()
         if c is not None and outfile is not None:
             c.writetofile(outfile)
-

@@ -30,7 +30,7 @@ configurations is important. The output quality of PyFeyn diagrams (into PDF or 
 is very high, and special effects can be obtained by using constructs from PyX, which PyFeyn
 is based around."""
 
-## Setup definition
+# Setup definition
 setup(name = 'pyfeyn',
       version = __version__,
       packages = ['pyfeyn'],

@@ -30,7 +30,7 @@ arclength = 10.0*unit.cm
 lenperseg = arclength/float(numsegs)
 lengths = [i*lenperseg for i in range(0,numsegs+1)]
 
-gradfactor = lenperseg / 3.0 
+gradfactor = lenperseg / 3.0
 prevpos = (0.0*unit.cm, 5.0*unit.cm)
 prevgrad = (gradfactor, gradfactor * omega * mag / unit.cm)
 for l in lengths[1:]:

@@ -28,7 +28,6 @@ from pyfeyn.utils import Visible
 from pyfeyn.deco import PointLabel
 from pyfeyn import config
 
-
 def midpoint(point1, point2):
     "Return the point midway between this point and the argument."
     return Point( (point1.getX() + point2.getX()) / 2.0,
@@ -37,7 +36,6 @@ def midpoint(point1, point2):
 def distance(point1, point2):
     "Calculate the distance between this point and the argument."
     return math.hypot(point1.x()-point2.x(), point1.y()-point2.y())
-
 
 ## Point base class
 class Point:
@@ -49,7 +47,6 @@ class Point:
         self.setBlob(blob)
         self.labels = []
 
-
     def addLabel(self, text, displace=0.3, angle = 0, size=pyx.text.size.normalsize):
         """Add a LaTeX label to this point, either via parameters or actually as
         a PointLable object."""
@@ -60,17 +57,14 @@ class Point:
             print "Labels = " + str(self.labels)
         return self
 
-            
     def removeLabels(self):
         """Remove all labels from this point."""
         self.labels = []
         return self
 
-
     def draw(self, canvas):
         "Do nothing (abstract base class)."
         pass
-
 
     def getPath(self):
         "Return the path of the attached blob path, if there is one, otherwise None."
@@ -78,7 +72,6 @@ class Point:
             return self.getBlob().getPath()
         else:
             return None
-
 
     def midpoint(self, otherpoint):
         "Return the point midway between this point and the argument."
@@ -92,14 +85,12 @@ class Point:
         "Return the y-intercept of the straight line defined by this point and the argument."
         return self.y() - self.tangent(otherpoint) * self.x()
 
-
     def tangent(self,otherpoint):
         "Return the tangent of the straight line defined by this point and the argument."
         if otherpoint.x() != self.x():
             return (otherpoint.y() - self.y()) / (otherpoint.x() - self.x())
         else:
             return float(10000) ## An arbitrary large number to replace infinity
-
 
     def arg(self, otherpoint):
         """Return the angle between the x-axis and the straight line defined
@@ -122,24 +113,21 @@ class Point:
             if otherpoint.x() < self.x():
                 arg += math.pi
             elif otherpoint.y() < self.y():
-                arg += 2 * math.pi 
+                arg += 2 * math.pi
 
         ## Convert to degrees
         argindegs = math.degrees(arg)
         return argindegs
 
-
     def getBlob(self):
         "Get the attached blob."
         return self.blob
-
 
     def setBlob(self, blob):
         "Set the attached blob."
         self.blob = blob
         return self
 
- 
     def getX(self):
         "Return the x-coordinate of this point."
         return self.xpos
@@ -179,7 +167,6 @@ class Point:
     def xy(self):
         "Alias for getXY()."
         return self.getXY()
-
 
 ## Decorated point class
 class DecoratedPoint(Point, Visible):
@@ -270,7 +257,7 @@ class DecoratedPoint(Point, Visible):
         """Add a stroke style to the marker or blob attached to this point."""
         self.strokestyles.append(style)
         return self
-    
+
     def draw(self, canvas):
         """Draw the marker or blob attached to this point."""
         if self.getPath():
@@ -279,10 +266,8 @@ class DecoratedPoint(Point, Visible):
         for l in self.labels:
             l.draw(canvas)
 
-
 ## Vertex is an alias for DecoratedPoint
 Vertex = DecoratedPoint
-    
 
 class Mark:
     def getPoint(self):
@@ -294,21 +279,19 @@ class Mark:
         self.point = point
         return self
 
-
 class SquareMark(Mark):
     def __init__(self,
                  size = 0.075):
         """A square mark."""
         self.size = size
         self.point = None
-        
+
     def getPath(self):
         """Return the path for this marker."""
         if self.getPoint() is not None:
             x, y = self.point.getXY()
             return pyx.box.rect(x-self.size, y-self.size, 2*self.size, 2*self.size).path()
-        return None    
-
+        return None
 
 class CircleMark(Mark):
     def __init__(self,
@@ -316,7 +299,7 @@ class CircleMark(Mark):
         """A circular mark."""
         self.radius = size
         self.point = None
-        
+
     def getPath(self):
         """Return the path for this marker."""
         if self.point is not None:
@@ -359,8 +342,6 @@ class StarshapeMark(Mark):
                       for i in range(2*self.n)]).path()
         return None
 
-
-
 ## Convenience constants
 CIRCLE = CircleMark()
 SQUARE = SquareMark()
@@ -376,5 +357,3 @@ TETRASTAR = StarshapeMark(rays=4)
 STAR = StarshapeMark(rays=5)
 HEXASTAR = StarshapeMark(rays=6)
 OCTOSTAR = StarshapeMark(rays=8)
-
-

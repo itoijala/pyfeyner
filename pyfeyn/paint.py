@@ -98,7 +98,7 @@ YELLOWGREEN = pyx.color.cmyk.YellowGreen
 YELLOWORANGE = pyx.color.cmyk.YellowOrange
 
 ## Patterns
-CROSSHATCHED0 = pyx.pattern.crosshatched(0.1, 0) 
+CROSSHATCHED0 = pyx.pattern.crosshatched(0.1, 0)
 CROSSHATCHED45 = pyx.pattern.crosshatched(0.1, 45)
 HATCHED0 = pyx.pattern.hatched0
 HATCHED45 = pyx.pattern.hatched45
@@ -106,12 +106,12 @@ HATCHED90 = pyx.pattern.hatched90
 HATCHED135 = pyx.pattern.hatched135
 
 ## Line widths
-THICK6 = pyx.style.linewidth.THICK 
-THICK5 = pyx.style.linewidth.THICk 
-THICK4 = pyx.style.linewidth.THIck 
-THICK3 = pyx.style.linewidth.THick 
-THICK2 = pyx.style.linewidth.Thick 
-THICK1 = pyx.style.linewidth.thick 
+THICK6 = pyx.style.linewidth.THICK
+THICK5 = pyx.style.linewidth.THICk
+THICK4 = pyx.style.linewidth.THIck
+THICK3 = pyx.style.linewidth.THick
+THICK2 = pyx.style.linewidth.Thick
+THICK1 = pyx.style.linewidth.thick
 NORMAL = pyx.style.linewidth.normal
 THIN1 = pyx.style.linewidth.thin
 THIN2 = pyx.style.linewidth.Thin

@@ -28,11 +28,10 @@ from pyfeyn.deco import Arrow, ParallelArrow, LineLabel
 from pyfeyn.utils import Visible, defunit
 from pyfeyn import config
 
-
 ## Line base class
 class Line(Visible):
     "Base class for all objects which connect points in Feynman diagrams"
-    
+
     def __init__(self, point1, point2):
         """Constructor."""
         self.p1 = point1
@@ -45,7 +44,6 @@ class Line(Visible):
 
         ## Add this to the current diagram automatically
         FeynDiagram.currentDiagram.add(self)
-
 
     def addLabel(self, text, pos=0.5, displace=-0.25, angle = 0, size=pyx.text.size.normalsize):
         """Add a LaTeX label to this line, either via parameters or actually as
@@ -71,12 +69,10 @@ class Line(Visible):
                                          stemsep=stemsep))
         return self
 
-            
     def removeLabels(self):
         """Remove the labels from this line."""
         self.labels = []
         return self
-
 
     def fracpoint(self, frac):
         """
@@ -87,7 +83,6 @@ class Line(Visible):
         p = self.getPath() ## no truncation or deformation
         x, y = p.at(p.begin() + frac * p.arclen())
         return Point(x/defunit, y/defunit)
-    
 
     def setArrows(self, arrows):
         """Define the arrows on this line."""
@@ -99,7 +94,6 @@ class Line(Visible):
             else:
                 self.arrows.append(Arrow(pos = i))
         return self
-
 
     def addArrow(self, position = 0.53, arrow = None):
         """Add an arrow to the line at the specified position, which is a number
@@ -113,12 +107,10 @@ class Line(Visible):
             self.arrows.append(Arrow(pos=position))
         return self
 
-
     def removeArrows(self):
         """Remove all arrows from this line."""
         self.arrows = []
         return self
-
 
     def arcThru(self, arcpoint = None, x = None, y = None):
         """Set the point through which this line will arc. Either pass a Point
@@ -131,11 +123,9 @@ class Line(Visible):
             raise Exception("Tried to set an arcpoint with invalid arguments")
         return self
 
-
     def straighten(self):
         """Make this line a straight line between start and end."""
         self.arcthrupoint = None
-
 
     def bend(self, amount):
         """Bend the line to the right by a given distance."""
@@ -159,35 +149,29 @@ class Line(Visible):
             FeynDiagram.currenDiagram.currentCanvas.stroke(self.getVisiblePath(), [color.rgb.blue])
         return self
 
-
     def set3D(self, choice):
         """Make this line display in '3D'."""
         self.is3D = choice
         return self
 
-
     def getStyles(self, stylelist):
         """Get the styles associated with this line."""
         return self.styles
-
 
     def setStyles(self, stylelist):
         """Set the styles associated with this line."""
         self.styles = stylelist
         return self
 
-
     def addStyle(self, style):
         """Add a style to this line."""
         self.styles.append(style)
         return self
 
-
     def addStyles(self, stylelist):
         """Add some styles to this line."""
         self.styles = self.styles + stylelist
         return self
-
 
     def getPath(self):
         """Get the path taken by this line."""
@@ -201,7 +185,7 @@ class Line(Visible):
             ## the antipode of the basepoint
             arccenter = self.p1.midpoint(self.arcthrupoint)
             arcradius = self.p1.distance(self.arcthrupoint) / 2.0
-            
+
             ## TODO Why does a circle work and an arc doesn't?
             cargs = (arccenter.x(), arccenter.y(), arcradius)
             circle = pyx.path.circle(*cargs)
@@ -228,7 +212,7 @@ class Line(Visible):
                 if config.getOptions().DEBUG:
                     print "Grad 1 diverges"
                 n13 = 1e100
-                
+
             try:
                 n23 = (self.p2.y() - self.arcthrupoint.y()) / (self.p2.x() - self.arcthrupoint.x())
             except ZeroDivisionError:
@@ -286,7 +270,6 @@ class Line(Visible):
                 return pyx.path.path( pyx.path.moveto(*(self.p1.getXY())),
                                       pyx.path.arcn(*arcargs))
 
-
     def getVisiblePath(self):
         """Find the subpath between the endpoints which isn't overshadowed by a blob of some kind"""
         p1path = self.p1.getPath()
@@ -313,7 +296,7 @@ class Line(Visible):
                         ix, iy = p1path.at(a)
                         FeynDiagram.currenDiagram.currentCanvas.fill(pyx.path.circle(ix, iy, 0.05),
                                                        [color.rgb.green])
-        if p2path: 
+        if p2path:
             ass, bs = p2path.intersect(vispath)
             for b in bs:
                 subpaths = vispath.split(b)
@@ -337,7 +320,6 @@ class Line(Visible):
         #return pyx.path.circle(-2,-1,0.2)
         return vispath
 
-        
     def draw(self, canvas):
         """Drwa this line on the given canvas."""
         path = self.getVisiblePath()
@@ -349,10 +331,8 @@ class Line(Visible):
         for l in self.labels:
             l.draw(canvas)
 
-
 ## Fermion is an alias for Line
 Fermion = Line
-
 
 class MultiLine(Line):
     """A class for drawing multiple parallel straight lines."""
@@ -366,11 +346,10 @@ class MultiLine(Line):
         self.arrows = []
         self.labels = []
         self.n = n
-        self.dist = dist 
+        self.dist = dist
 
         ## Add this to the current diagram automatically
         FeynDiagram.currentDiagram.add(self)
-
 
     def draw(self, canvas):
         """Draw this multiline on the supplied canvas."""
@@ -385,7 +364,6 @@ class MultiLine(Line):
         styles = self.styles + self.arrows
         for p in paths:
             canvas.stroke(p, styles)
-
 
 class Scalar(Line):
     """A scalar particle line, like a Higgs boson."""
@@ -402,15 +380,11 @@ class Scalar(Line):
         for l in self.labels:
             l.draw(canvas)
 
-
-
 ## Higgs is an alias for Scalar
 Higgs = Scalar
 
 ## Sfermion is also an alias for Scalar
 Sfermion = Scalar
-
-
 
 class Ghost(Line):
     """A dotted scalar particle line, like a Yang-Mills ghost particle."""
@@ -427,8 +401,6 @@ class Ghost(Line):
         for l in self.labels:
             l.draw(canvas)
 
-
-
 ## DecoratedLine base class
 class DecoratedLine(Line):
     """Base class for spring and sine-like lines"""
@@ -444,8 +416,6 @@ class DecoratedLine(Line):
     def getDeformedPath(self):
         """Get the deformed path."""
         return getVisiblePath()
-
-
 
 class Gluon(DecoratedLine):
     """A line with a cycloid deformation"""
@@ -468,7 +438,6 @@ class Gluon(DecoratedLine):
         ## Add this to the current diagram automatically
         FeynDiagram.currentDiagram.add(self)
 
-
     def set3D(self, is3D=True, skipsize=pyx.unit.length(0.04), parity=0):
         """Make this line display in '3D'."""
         self.is3D = is3D
@@ -476,40 +445,33 @@ class Gluon(DecoratedLine):
         self.parity3D = parity
         return self
 
-
     def invert(self):
         """Flip the line decoration around the line."""
         self.inverted = not self.inverted
         return self
 
-
     def getFrequency(self):
         """Get the rate of occurence of the coil decoration."""
         return self.frequency
-
 
     def setFrequency(self, freq):
         """Set the rate of occurence of the coil decoration."""
         self.frequency = freq
         return self
 
-
     def getAmplitude(self):
-        """Get the radius of the coil decoration.""" 
+        """Get the radius of the coil decoration."""
         return self.arcradius
 
-
     def setAmplitude(self, amplitude):
-        """Set the radius of the coil decoration.""" 
+        """Set the radius of the coil decoration."""
         self.arcradius = amplitude
         return self
 
-
     def setExtraCycles(self, extras):
-        """Add some extra (possibly negative) oscillations to the coil decoration.""" 
+        """Add some extra (possibly negative) oscillations to the coil decoration."""
         self.extras = extras
         return self
-
 
     def getDeformedPath(self):
         """Get the path modified by the coil warping."""
@@ -524,11 +486,10 @@ class Gluon(DecoratedLine):
             intwindings -= 1
         deficit = needwindings - intwindings
         sign = 1
-        if self.inverted: sign = -1 
+        if self.inverted: sign = -1
         defo = pyx.deformer.cycloid(self.arcradius, intwindings, curvesperhloop=10,
                                     skipfirst = 0.0, skiplast = 0.0, sign = sign)
         return defo.deform(self.getVisiblePath())
-
 
     def draw(self, canvas):
         """Draw the line on the supplied canvas."""
@@ -556,8 +517,6 @@ class Gluon(DecoratedLine):
         for l in self.labels:
             l.draw(canvas)
 
-
-
 class Vector(DecoratedLine):
     """A line with a sinoid deformation"""
     def __init__(self, point1, point2, amplitude=0.25, frequency=1.0):
@@ -577,34 +536,28 @@ class Vector(DecoratedLine):
         ## Add this to the current diagram automatically
         FeynDiagram.currentDiagram.add(self)
 
-
     def invert(self):
         """Reflect the decoration in the line itself."""
         self.inverted = not self.inverted
         return self
 
-
     def getFrequency(self):
         """Get the rate of occurance of the oscillation."""
         return self.frequency
-
 
     def setFrequency(self, freq):
         """Set the rate of occurance of the oscillation."""
         self.frequency = freq
         return self
 
-
     def getAmplitude(self):
         """Get the size of the oscillation."""
         return self.arcradius
-
 
     def setAmplitude(self, amplitude):
         """Set the size of the oscillation."""
         self.arcradius = amplitude
         return self
-
 
     def setExtraHalfCycles(self, extras):
         """Add some extra half cycles to the oscillation on top of those
@@ -612,19 +565,17 @@ class Vector(DecoratedLine):
         self.extrahalfs = extras
         return self
 
-
     def getDeformedPath(self):
         """Get the path with the decorative deformation."""
         intwindings = int(self.frequency * pyx.unit.tocm(self.getVisiblePath().arclen()) /
                           pyx.unit.tocm(self.arcradius))
         intwindings += self.extrahalfs
         sign = 1
-        if self.inverted: sign = -1 
+        if self.inverted: sign = -1
         defo = pyx.deformer.cycloid(self.arcradius, intwindings, curvesperhloop=5,
                                     skipfirst=0.0, skiplast=0.0, turnangle=0, sign=sign)
         return defo.deform(self.getVisiblePath())
 
-        
     def draw(self, canvas):
         """Draw the line on the supplied canvas."""
         styles = self.styles + self.arrows
@@ -634,10 +585,8 @@ class Vector(DecoratedLine):
         for l in self.labels:
             l.draw(canvas)
 
-
 ## Photon is an alias for Vector
 Photon = Vector
-
 
 class Graviton(DecoratedLine):
     """A line with a double sinoid deformation"""
@@ -658,7 +607,6 @@ class Graviton(DecoratedLine):
         ## Add this to the current diagram automatically
         FeynDiagram.currentDiagram.add(self)
 
-
     def set3D(self, is3D=True, skipsize=pyx.unit.length(0.04), parity=0):
         """Make this line display in '3D'."""
         self.is3D = is3D
@@ -666,12 +614,10 @@ class Graviton(DecoratedLine):
         self.parity3D = parity
         return self
 
-
     def invert(self):
         """Reflect the decoration in the line itself."""
         self.inverted = not self.inverted
         return self
-
 
     def getDeformedPath(self, sign = 1):
         """Get the path with the decorative deformation."""
@@ -688,19 +634,18 @@ class Graviton(DecoratedLine):
                 #    print self.__class__, "- curve radius = ", curveradius
                 if (mincurveradius is None or curveradius < mincurveradius):
                     mincurveradius = curveradius
-            except: 
+            except:
                 pass
         numhloopcurves = 5
         if mincurveradius is not None:
             numhloopcurves += int(0.1/mincurveradius)
         if config.getOptions().DEBUG:
-            print self.__class__, "- min curvature radius = ", mincurveradius, "->", numhloopcurves, "curves/hloop"                    
+            print self.__class__, "- min curvature radius = ", mincurveradius, "->", numhloopcurves, "curves/hloop"
 
         defo = pyx.deformer.cycloid(self.arcradius, intwindings, curvesperhloop=numhloopcurves,
                                     skipfirst=0.0, skiplast=0.0, turnangle=0, sign=sign)
         return defo.deform(vispath)
 
-        
     def draw(self, canvas):
         """Draw the line on the supplied canvas."""
         styles = self.styles + self.arrows
@@ -752,11 +697,9 @@ class Graviton(DecoratedLine):
         for l in self.labels:
             l.draw(canvas)
 
-
-
 class Gaugino(DecoratedLine):
     """A line with a sinoid deformation and a normal line"""
-    
+
     def __init__(self, point1, point2):
         """Constructor."""
         self.p1 = point1
@@ -774,7 +717,6 @@ class Gaugino(DecoratedLine):
         ## Add this to the current diagram automatically
         FeynDiagram.currentDiagram.add(self)
 
-
     def set3D(self, is3D=True, skipsize=pyx.unit.length(0.04), parity=0):
         """Make the line look 3-dimensional by 'cutting' one line where self-intersections occur."""
         self.is3D = is3D
@@ -782,12 +724,10 @@ class Gaugino(DecoratedLine):
         self.parity3D = parity
         return self
 
-
     def invert(self):
         """Reflect the decoration in the line itself."""
         self.inverted = not self.inverted
         return self
-
 
     def getDeformedPath(self):
         """Get the path with the decorative deformation."""
@@ -795,7 +735,7 @@ class Gaugino(DecoratedLine):
                           pyx.unit.tocm(self.arcradius))
         sign = 1
         if self.inverted: sign = -1
-        
+
         vispath = self.getVisiblePath()
         curveradii = vispath.curveradius([i/10.0 for i in range(0,11)])
         mincurveradius = None
@@ -806,7 +746,7 @@ class Gaugino(DecoratedLine):
                 #    print self.__class__, "- curvature radius = ", curveradius
                 if (mincurveradius is None or curveradius < mincurveradius):
                     mincurveradius = curveradius
-            except: 
+            except:
                 pass
 
         ## Use curvature info to increase number of curve sections
@@ -820,7 +760,6 @@ class Gaugino(DecoratedLine):
                                     skipfirst=0.0, skiplast=0.0, turnangle=0, sign=sign)
         return defo.deform(vispath)
 
-        
     def draw(self, canvas):
         """Draw the line on the supplied canvas."""
         styles = self.styles + self.arrows
@@ -868,7 +807,6 @@ class Gaugino(DecoratedLine):
         for l in self.labels:
             l.draw(canvas)
 
-
 class Gluino(DecoratedLine):
     """A line with a cycloid deformation and a normal line"""
     def __init__(self, point1, point2):
@@ -888,7 +826,6 @@ class Gluino(DecoratedLine):
         ## Add this to the current diagram automatically
         FeynDiagram.currentDiagram.add(self)
 
-
     def set3D(self, is3D=True, skipsize=pyx.unit.length(0.04), parity=0):
         """Make this line display in '3D'."""
         self.is3D = is3D
@@ -896,12 +833,10 @@ class Gluino(DecoratedLine):
         self.parity3D = parity
         return self
 
-
     def invert(self):
         """Reflect the decoration in the line itself."""
         self.inverted = not self.inverted
         return self
-
 
     def getDeformedPath(self):
         """Get the path with the decorative deformation."""
@@ -930,11 +865,11 @@ class Gluino(DecoratedLine):
                 #    print self.__class__, "- curvature radius = ", curveradius
                 if (mincurveradius is None or curveradius < mincurveradius):
                     mincurveradius = curveradius
-            except: 
+            except:
                 pass
 
         ## Use curvature info to increase number of curve sections
-        numhloopcurves = 10 
+        numhloopcurves = 10
         if mincurveradius is not None:
             numhloopcurves += int(0.2/mincurveradius)
         if config.getOptions().DEBUG:
@@ -943,7 +878,6 @@ class Gluino(DecoratedLine):
         defo = pyx.deformer.cycloid(self.arcradius, intwindings, curvesperhloop=numhloopcurves,
                                     skipfirst=0.0, skiplast=0.0, sign=sign)
         return defo.deform(vispath)
-
 
     def draw(self, canvas):
         """Draw the line on the supplied canvas."""
@@ -1001,7 +935,6 @@ class Gluino(DecoratedLine):
         for l in self.labels:
             l.draw(canvas)
 
-
 class Gravitino(DecoratedLine):
     """A line with a double sinoid deformation and a simple line"""
     def __init__(self, point1, point2):
@@ -1021,7 +954,6 @@ class Gravitino(DecoratedLine):
         ## Add this to the current diagram automatically
         FeynDiagram.currentDiagram.add(self)
 
-
     def set3D(self, is3D=True, skipsize=pyx.unit.length(0.04), parity=0):
         """Make this line display in '3D'."""
         self.is3D = is3D
@@ -1029,12 +961,10 @@ class Gravitino(DecoratedLine):
         self.parity3D = parity
         return self
 
-
     def invert(self):
         """Reflect the decoration in the line itself."""
         self.inverted = not self.inverted
         return self
-
 
     def getDeformedPath(self, sign = 1):
         """Get the path with the decorative deformation."""
@@ -1051,19 +981,18 @@ class Gravitino(DecoratedLine):
                 #    print self.__class__, "- curve radius = ", curveradius
                 if (mincurveradius is None or curveradius < mincurveradius):
                     mincurveradius = curveradius
-            except: 
+            except:
                 pass
         numhloopcurves = 5
         if mincurveradius is not None:
             numhloopcurves += int(0.1/mincurveradius)
         if config.getOptions().DEBUG:
-            print self.__class__, "- min curvature radius = ", mincurveradius, "->", numhloopcurves, "curves/hloop"                    
+            print self.__class__, "- min curvature radius = ", mincurveradius, "->", numhloopcurves, "curves/hloop"
 
         defo = pyx.deformer.cycloid(self.arcradius, intwindings, curvesperhloop=numhloopcurves,
                                     skipfirst=0.0, skiplast=0.0, turnangle=0, sign=sign)
         return defo.deform(vispath)
 
-        
     def draw(self, canvas):
         """Draw the line on the supplied canvas."""
         styles = self.styles + self.arrows
@@ -1096,8 +1025,6 @@ class Gravitino(DecoratedLine):
         for l in self.labels:
             l.draw(canvas)
 
-
-
 class Phantom(DecoratedLine):
     """An invisible line."""
     def __init__(self,  point1, point2):
@@ -1124,4 +1051,3 @@ NamedLine = { "higgs"    : Higgs,
               "ghost"    : Ghost,
               "phantom"  : Phantom
              }
-

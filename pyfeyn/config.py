@@ -19,8 +19,7 @@
 
 """Handle runtime options and command line option parsing."""
 
-from optparse import OptionParser 
-
+from optparse import OptionParser
 
 def addPyfeynOptions(parser):
     """Add the PyFeyn options to the options parser's option set."""
@@ -32,7 +31,6 @@ def addPyfeynOptions(parser):
                       default = False, help="produce draft output, skipping time-consuming calculations")
     return parser
 
-
 def processOptions(parser=None):
     """Process the given options."""
     global _opts
@@ -43,7 +41,6 @@ def processOptions(parser=None):
     _opts = _options
     return _options, _args
 
-
 class OptionSet:
     """A container for options."""
     def __init__(self):
@@ -51,9 +48,7 @@ class OptionSet:
         self.VDEBUG = False
         self.DRAFT = False
 
-
 _opts = OptionSet()
-
 
 def getOptions():
     """Return the (unique) option set."""
