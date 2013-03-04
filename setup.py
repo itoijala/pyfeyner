@@ -1,8 +1,5 @@
 #!/usr/bin/env python2
 
-## Get setuptools
-import ez_setup
-ez_setup.use_setuptools()
 from setuptools import setup
 
 from pyfeyn import __version__
