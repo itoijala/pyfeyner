@@ -2,7 +2,7 @@
 
 #
 # PyFeyn - a simple Python interface for making Feynman diagrams.
-# Copyright (C) 2007 Andy Buckley
+# Copyright (C) 2005-2010 Andy Buckley, Georg von Hippel
 #
 # PyFeyn is free software; you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
