@@ -1,4 +1,4 @@
-#! /usr/bin/env python
+#!/usr/bin/env python2
 
 from pyfeyn.user import *
 from pyx import *
