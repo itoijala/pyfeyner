@@ -1,0 +1,5 @@
+* matplotlib style options for color, markers, style, etc.
+
+* matplotlib style rc-file for defaults (for all lines, special lines, inheritance)
+
+* matplotlib/pyplot style API
