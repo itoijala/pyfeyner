@@ -24,7 +24,7 @@ import pyx
 from pyfeyner import config
 
 ## Diagram class
-class FeynDiagram:
+class FeynDiagram(object):
     """The main pyfeyner diagram class."""
     currentDiagram = None
 

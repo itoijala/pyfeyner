@@ -42,7 +42,7 @@ def processOptions(parser=None):
     _opts = _options
     return _options, _args
 
-class OptionSet:
+class OptionSet(object):
     """A container for options."""
     def __init__(self):
         self.DEBUG = False

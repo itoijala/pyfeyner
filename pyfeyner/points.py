@@ -39,7 +39,7 @@ def distance(point1, point2):
     return math.hypot(point1.x()-point2.x(), point1.y()-point2.y())
 
 ## Point base class
-class Point:
+class Point(object):
     """Base class for all pointlike objects in Feynman diagrams."""
 
     def __init__(self, x, y, blob = None):
@@ -270,7 +270,7 @@ class DecoratedPoint(Point, Visible):
 ## Vertex is an alias for DecoratedPoint
 Vertex = DecoratedPoint
 
-class Mark:
+class Mark(object):
     def getPoint(self):
         """Return the point to which this marker is attached."""
         return self.point
