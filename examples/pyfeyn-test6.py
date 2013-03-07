@@ -21,6 +21,7 @@
 #
 
 from pyfeyner.user import *
+import pyx
 
 fd = FeynDiagram()
 
@@ -38,7 +39,7 @@ l2 = Fermion(v2, o2).addArrow(0.8)
 g1 = Gluino(v1, v2).bend(1.5).set3D()
 g2 = Gaugino(v1, v2).bend(-1.5).set3D()
 g3 = Graviton(midpoint(v2,o2), midpoint(v2,o1)).bend(0.5).set3D()
-g1.setStyles([color.rgb.red])
+g1.setStyles([pyx.color.rgb.red])
 
 lab = Label("A silly SUSY / graviton demo", x=0, y=2.2)
 

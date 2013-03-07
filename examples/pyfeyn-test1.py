@@ -22,7 +22,6 @@
 
 from pyfeyner.user import *
 
-processOptions()
 fd = FeynDiagram()
 
 in1 = Point(-4,  2)
