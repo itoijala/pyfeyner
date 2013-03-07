@@ -81,11 +81,11 @@ class Blob(Point, Visible):
 
     def addLabel(self, text, displace=-0.15, angle = 0, size=pyx.text.size.normalsize):
         """Add a label."""
-        if config.getOptions().DEBUG:
+        if config.DEBUG:
             print "Adding label: " + text
         self.labels.append(PointLabel(text=text, point=self,
                                       displace=displace, angle=angle, size=size))
-        if config.getOptions().DEBUG:
+        if config.DEBUG:
             print "Labels = " + str(self.labels)
         return self
 

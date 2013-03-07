@@ -43,7 +43,7 @@ class FeynDiagram(object):
     def add(self, *objs):
         """Add an object to the diagram."""
         for obj in objs:
-            if config.getOptions().DEBUG:
+            if config.DEBUG:
                 print "#objs = %d" % len(self.__objs)
             offset = 0
             if obj.__dict__.has_key("layeroffset"):
@@ -51,7 +51,7 @@ class FeynDiagram(object):
                 offset = obj.layeroffset
             self.highestautolayer += 1
             obj.setDepth(self.highestautolayer + offset)
-            if config.getOptions().DEBUG:
+            if config.DEBUG:
                 print "Object %s layer = %d + %d = %d" % \
                       (obj.__class__, self.highestautolayer, offset,
                        self.highestautolayer + offset)
@@ -59,9 +59,9 @@ class FeynDiagram(object):
 
     def drawToCanvas(self):
         """Draw the components of this diagram in a well-defined order."""
-        if config.getOptions().DEBUG:
+        if config.DEBUG:
             print "Final #objs = %d" % len(self.__objs)
-        if config.getOptions().VDEBUG:
+        if config.VDEBUG:
             print "Running in visual debug mode"
 
         ## Sort drawing objects by layer
@@ -73,7 +73,7 @@ class FeynDiagram(object):
 
         ## Draw each object
         for obj in drawingobjs:
-            if config.getOptions().DEBUG:
+            if config.DEBUG:
                 print "Depth = ", obj.getDepth()
             obj.draw(self.currentCanvas)
 

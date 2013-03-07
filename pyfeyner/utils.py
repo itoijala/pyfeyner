@@ -66,7 +66,7 @@ class Visible(object):
         if other is None:
             return -1
 
-        if config.getOptions().DEBUG:
+        if config.DEBUG:
             print "Comparing visible classes: ", \
                   self.__class__, "->", self.getDepth(), "vs.", \
                   other.__class__, "->", other.getDepth()

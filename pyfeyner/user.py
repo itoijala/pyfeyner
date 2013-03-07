@@ -27,4 +27,4 @@ from pyfeyner.blobs import *
 from pyfeyner.deco import *
 #from pyfeyner.utils import *
 from pyfeyner.paint import *
-from pyfeyner.config import *
+import pyfeyner.config as config

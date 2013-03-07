@@ -18,17 +18,8 @@
 # 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #
 
-"""Handle runtime options."""
+"""Runtime options."""
 
-class OptionSet(object):
-    """A container for options."""
-    def __init__(self):
-        self.DEBUG = False
-        self.VDEBUG = False
-        self.DRAFT = False
-
-_opts = OptionSet()
-
-def getOptions():
-    """Return the (unique) option set."""
-    return _opts
+DEBUG = False # print debug messages
+VDEBUG = False # visual debugging
+DRAFT = False # turn off 3D effects for performance

@@ -115,7 +115,7 @@ class ParallelArrow(Visible):
             displacement += intrinsicwidth
         else:
             displacement -= intrinsicwidth
-        if config.getOptions().DEBUG:
+        if config.DEBUG:
             print "Displacement = ", displacement
 
         ## Position the arrow on the right hand side of lines
@@ -133,7 +133,7 @@ class ParallelArrow(Visible):
         if displacement < 0:
             normal = normal.transformed(pyx.trafo.rotate(180, x, y))
             nx, ny = normal.atend()
-        if config.getOptions().VDEBUG:
+        if config.VDEBUG:
             FeynDiagram.currentDiagram.currentCanvas.stroke(normal)
 
         ## Displace the arrow by this normal vector
@@ -227,7 +227,7 @@ class PointLabel(Label):
 
     def draw(self, canvas):
         """Draw this label on the supplied canvas."""
-        if config.getOptions().VDEBUG:
+        if config.VDEBUG:
             canvas.fill(pyx.path.circle(self.point.getX(),
                                         self.point.getY(), 0.05), [pyx.color.rgb.green])
         x = self.point.getX() + self.displace * math.cos(math.radians(self.angle))
@@ -276,7 +276,7 @@ class LineLabel(Label):
             displacement += intrinsicwidth
         else:
             displacement -= intrinsicwidth
-        if config.getOptions().DEBUG:
+        if config.DEBUG:
             print "Displacement = ", displacement
 
         ## Position the label on the right hand side of lines
@@ -294,7 +294,7 @@ class LineLabel(Label):
         if displacement < 0:
             normal = normal.transformed(pyx.trafo.rotate(180, x, y))
             nx, ny = normal.atend()
-        if config.getOptions().VDEBUG:
+        if config.VDEBUG:
             FeynDiagram.currentDiagram.currentCanvas.stroke(normal)
 
         ## Displace the label by this normal vector
