@@ -308,3 +308,7 @@ class LineLabel(Label):
         #            math.cos(self.angle * math.pi/180),
         #            math.sin(self.angle * math.pi/180))
         canvas.insert(t)
+
+__all__ = ["Arrow", "FreeArrow", "ParallelArrow", "Label", "PointLabel", "LineLabel"]
+
+del pyx, math, FeynDiagram, Visible, config

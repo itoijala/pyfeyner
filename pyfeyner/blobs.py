@@ -231,8 +231,6 @@ class Ellipse(Blob):
         for l in self.labels:
             l.draw(canvas)
 
-## A dictionary to map feynML blob shape choices to blob classes
-NamedBlob = {
-    "circle" : Circle,
-    "ellipse" : Ellipse
-    }
+__all__ = ["Blob", "Circle", "Ellipse"]
+
+del pyx, FeynDiagram, Point, Visible, PointLabel, config

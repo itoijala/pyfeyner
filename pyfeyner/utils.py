@@ -72,3 +72,7 @@ class Visible(object):
                   other.__class__, "->", other.getDepth()
         else:
             return cmp(self.getDepth(), other.getDepth())
+
+__all__ = ["defunit", "todefunit", "sign", "Visible"]
+
+del pyx, FeynDiagram, config

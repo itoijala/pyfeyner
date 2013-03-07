@@ -25,5 +25,4 @@ from pyfeyner.points import *
 from pyfeyner.lines import *
 from pyfeyner.blobs import *
 from pyfeyner.deco import *
-#from pyfeyner.utils import *
 import pyfeyner.config as config

@@ -343,18 +343,6 @@ class StarshapeMark(Mark):
                       for i in range(2*self.n)]).path()
         return None
 
-## Convenience constants
-CIRCLE = CircleMark()
-SQUARE = SquareMark()
+__all__ = ["Point", "DecoratedPoint", "Mark", "SquareMark", "CircleMark", "PolygonalMark", "StarshapeMark"]
 
-TRIANGLE = PolygonalMark(corners=3)
-DIAMOND = PolygonalMark(corners=4)
-PENTAGON = PolygonalMark(corners=5)
-HEXAGON = PolygonalMark(corners=6)
-HEPTAGON = PolygonalMark(corners=7)
-OCTAGON = PolygonalMark(corners=8)
-
-TETRASTAR = StarshapeMark(rays=4)
-STAR = StarshapeMark(rays=5)
-HEXASTAR = StarshapeMark(rays=6)
-OCTOSTAR = StarshapeMark(rays=8)
+del pyx, copy, math, FeynDiagram, Visible, PointLabel, config

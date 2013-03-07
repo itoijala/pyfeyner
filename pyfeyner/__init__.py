@@ -40,3 +40,5 @@ else:
 
 ## Set __all__ (for "from pyfeyner import *")
 __all__ = ["diagrams", "points", "blobs", "lines", "deco", "utils", "config"]
+
+del pyx

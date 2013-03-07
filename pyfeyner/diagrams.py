@@ -85,3 +85,7 @@ class FeynDiagram(object):
         c = self.drawToCanvas()
         if c is not None and outfile is not None:
             c.writetofile(outfile)
+
+__all__ = ["FeynDiagram"]
+
+del pyx, config

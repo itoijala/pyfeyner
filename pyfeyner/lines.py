@@ -1038,17 +1038,6 @@ class Phantom(DecoratedLine):
         """Draw the line on the supplied canvas (does nothing for a phantom)."""
         return
 
-# A dictionary for mapping FeynML line types to line classes
-NamedLine = { "higgs"    : Higgs,
-              "photon"   : Photon,
-              "vector"   : Photon,
-              "gluon"    : Gluon,
-              "fermion"  : Fermion,
-              "graviton" : Graviton,
-              "gaugino"  : Gaugino,
-              "gluino"   : Gluino,
-              "gravitino": Gravitino,
-              "scalar"   : Higgs,
-              "ghost"    : Ghost,
-              "phantom"  : Phantom
-             }
+__all__ = ["Line", "Fermion", "Higgs", "Sfermion", "MultiLine", "Scalar", "Ghost", "DecoratedLine", "Gluon", "Vector", "Photon", "Graviton", "Gaugino", "Gluino", "Gravitino", "Phantom"]
+
+del pyx, math, color, FeynDiagram, Point, Arrow, ParallelArrow, LineLabel, Visible, defunit, config
