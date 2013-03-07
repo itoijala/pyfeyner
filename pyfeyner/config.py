@@ -18,29 +18,7 @@
 # 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #
 
-"""Handle runtime options and command line option parsing."""
-
-from optparse import OptionParser
-
-def addPyfeynOptions(parser):
-    """Add the pyfeyner options to the options parser's option set."""
-    parser.add_option("-V", "--visual-debug", dest="VDEBUG", action = "store_true",
-                      default = False, help="produce visual debug output")
-    parser.add_option("-D", "--debug", dest="DEBUG", action = "store_true",
-                      default = False, help="produce debug output")
-    parser.add_option("-d", "--draft", dest="DRAFT", action = "store_true",
-                      default = False, help="produce draft output, skipping time-consuming calculations")
-    return parser
-
-def processOptions(parser=None):
-    """Process the given options."""
-    global _opts
-    if parser is None:
-        parser = OptionParser()
-        addPyfeynOptions(parser)
-    (_options, _args) = parser.parse_args()
-    _opts = _options
-    return _options, _args
+"""Handle runtime options."""
 
 class OptionSet(object):
     """A container for options."""
