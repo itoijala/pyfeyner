@@ -20,35 +20,37 @@
 
 """Various types of points for vertices etc."""
 
-import pyx
-from copy import copy
 import math
+from copy import copy
+
+import pyx
 
 from pyfeyner.diagrams import FeynDiagram
 from pyfeyner.utils import Visible
 from pyfeyner.deco import PointLabel
 from pyfeyner import config
 
+
 def midpoint(point1, point2):
     "Return the point midway between this point and the argument."
-    return Point( (point1.getX() + point2.getX()) / 2.0,
-                  (point1.getY() + point2.getY()) / 2.0 )
+    return Point((point1.getX() + point2.getX()) / 2.0,
+                 (point1.getY() + point2.getY()) / 2.0)
+
 
 def distance(point1, point2):
     "Calculate the distance between this point and the argument."
-    return math.hypot(point1.x()-point2.x(), point1.y()-point2.y())
+    return math.hypot(point1.x() - point2.x(), point1.y() - point2.y())
 
-## Point base class
+
 class Point(object):
     """Base class for all pointlike objects in Feynman diagrams."""
 
-    def __init__(self, x, y, blob = None):
-        """Constructor."""
+    def __init__(self, x, y, blob=None):
         self.setXY(x, y)
         self.setBlob(blob)
         self.labels = []
 
-    def addLabel(self, text, displace=0.3, angle = 0, size=pyx.text.size.normalsize):
+    def addLabel(self, text, displace=0.3, angle=0, size=pyx.text.size.normalsize):
         """Add a LaTeX label to this point, either via parameters or actually as
         a PointLable object."""
         if config.DEBUG:
@@ -86,12 +88,12 @@ class Point(object):
         "Return the y-intercept of the straight line defined by this point and the argument."
         return self.y() - self.tangent(otherpoint) * self.x()
 
-    def tangent(self,otherpoint):
+    def tangent(self, otherpoint):
         "Return the tangent of the straight line defined by this point and the argument."
         if otherpoint.x() != self.x():
             return (otherpoint.y() - self.y()) / (otherpoint.x() - self.x())
         else:
-            return float(10000) ## An arbitrary large number to replace infinity
+            return float(10000)  # An arbitrary large number to replace infinity
 
     def arg(self, otherpoint):
         """Return the angle between the x-axis and the straight line defined
@@ -110,13 +112,13 @@ class Point(object):
                 arg = 0.0
 
         if otherpoint.x() != self.x() and otherpoint.y() != self.y():
-            arg = math.atan( (otherpoint.y() - self.y()) / (otherpoint.x() - self.x()) )
+            arg = math.atan((otherpoint.y() - self.y()) / (otherpoint.x() - self.x()))
             if otherpoint.x() < self.x():
                 arg += math.pi
             elif otherpoint.y() < self.y():
                 arg += 2 * math.pi
 
-        ## Convert to degrees
+        # Convert to degrees
         argindegs = math.degrees(arg)
         return argindegs
 
@@ -169,23 +171,26 @@ class Point(object):
         "Alias for getXY()."
         return self.getXY()
 
-## Decorated point class
+
 class DecoratedPoint(Point, Visible):
     "Class for a point drawn with a marker"
-    def __init__(self, xpos, ypos,
-                 mark = None,
-                 blob = None,
-                 fill = [pyx.color.rgb.black],
-                 stroke = [pyx.color.rgb.black]):
-        """Constructor."""
+
+    def __init__(self,
+                 xpos,
+                 ypos,
+                 mark=None,
+                 blob=None,
+                 fill=[pyx.color.rgb.black],
+                 stroke=[pyx.color.rgb.black]):
         self.setXY(xpos, ypos)
         self.labels = []
         self.setMark(copy(mark))
         self.setBlob(blob)
         self.layeroffset = 1000
-        self.fillstyles = copy(fill) # lists are mutable --
-        self.strokestyles = copy(stroke) # hence make a copy!
-        ## Add this to the current diagram automatically
+        self.fillstyles = copy(fill)  # lists are mutable --
+        self.strokestyles = copy(stroke)  # hence make a copy!
+
+        # Add this to the current diagram automatically
         FeynDiagram.currentDiagram.add(self)
 
     def getPath(self):
@@ -206,8 +211,8 @@ class DecoratedPoint(Point, Visible):
         self.marker = mark
         if self.marker is not None:
             self.marker.setPoint(self)
-        # if size is None and self.radius == 0: # change shape of a true point?
-        #     self.radius = 4*unit.t_pt # probably want to use default size
+        # if size is None and self.radius == 0:  # change shape of a true point?
+        #     self.radius = 4 * unit.t_pt  # probably want to use default size
         return self
 
     def getBlob(self):
@@ -267,8 +272,9 @@ class DecoratedPoint(Point, Visible):
         for l in self.labels:
             l.draw(canvas)
 
-## Vertex is an alias for DecoratedPoint
+
 Vertex = DecoratedPoint
+
 
 class Mark(object):
     def getPoint(self):
@@ -280,10 +286,9 @@ class Mark(object):
         self.point = point
         return self
 
+
 class SquareMark(Mark):
-    def __init__(self,
-                 size = 0.075):
-        """A square mark."""
+    def __init__(self, size=0.075):
         self.size = size
         self.point = None
 
@@ -291,13 +296,12 @@ class SquareMark(Mark):
         """Return the path for this marker."""
         if self.getPoint() is not None:
             x, y = self.point.getXY()
-            return pyx.box.rect(x-self.size, y-self.size, 2*self.size, 2*self.size).path()
+            return pyx.box.rect(x - self.size, y - self.size, 2 * self.size, 2 * self.size).path()
         return None
 
+
 class CircleMark(Mark):
-    def __init__(self,
-                 size = 0.075):
-        """A circular mark."""
+    def __init__(self, size=0.075):
         self.radius = size
         self.point = None
 
@@ -308,10 +312,9 @@ class CircleMark(Mark):
             return pyx.path.circle(x, y, self.radius).path()
         return None
 
+
 class PolygonalMark(Mark):
-    def __init__(self,
-                 size = 0.075, corners = 3):
-        """A polygonal mark."""
+    def __init__(self, size=0.075, corners=3):
         self.radius = size
         self.n = corners
         self.point = None
@@ -320,15 +323,14 @@ class PolygonalMark(Mark):
         """Return the path for this marker."""
         if self.point is not None:
             x, y = self.point.getXY()
-            return pyx.box.polygon([(x-self.radius*math.sin(i*2*math.pi/self.n),
-                                     y+self.radius*math.cos(i*2*math.pi/self.n))
+            return pyx.box.polygon([(x - self.radius * math.sin(i * 2 * math.pi / self.n),
+                                     y + self.radius * math.cos(i * 2 * math.pi / self.n))
                       for i in range(self.n)]).path()
         return None
 
+
 class StarshapeMark(Mark):
-    def __init__(self,
-                 size = 0.075, raysize = 0.05, rays = 3):
-        """A star-shaped mark."""
+    def __init__(self, size=0.075, raysize=0.05, rays=3):
         self.radius = size
         self.wiggle = raysize
         self.n = rays
@@ -338,11 +340,10 @@ class StarshapeMark(Mark):
         """Return the path for this marker."""
         if self.point is not None:
             x, y = self.point.getXY()
-            return pyx.box.polygon([(x-(self.radius-self.wiggle*(i%2))*math.sin(i*math.pi/self.n),
-                                     y+(self.radius-self.wiggle*(i%2))*math.cos(i*math.pi/self.n))
-                      for i in range(2*self.n)]).path()
+            return pyx.box.polygon([(x - (self.radius - self.wiggle * (i % 2)) * math.sin(i * math.pi / self.n),
+                                     y + (self.radius - self.wiggle * (i % 2)) * math.cos(i * math.pi / self.n))
+                      for i in range(2 * self.n)]).path()
         return None
 
-__all__ = ["Point", "DecoratedPoint", "Mark", "SquareMark", "CircleMark", "PolygonalMark", "StarshapeMark"]
 
-del pyx, copy, math, FeynDiagram, Visible, PointLabel, config
+__all__ = ["midpoint", "distance", "Point", "DecoratedPoint", "Vertex", "Mark", "SquareMark", "CircleMark", "PolygonalMark", "StarshapeMark"]

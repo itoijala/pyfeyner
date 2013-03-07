@@ -28,8 +28,8 @@ in1 = Point(-4,  2)
 in2 = Point(-4, -2)
 out1 = Point(4, -2)
 out2 = Point(4,  2)
-in_vtx = Vertex(-2, 0, mark=CIRCLE)
-out_vtx = Vertex(2, 0, mark=CIRCLE)
+in_vtx = Vertex(-2, 0, mark=CircleMark())
+out_vtx = Vertex(2, 0, mark=CircleMark())
 
 l1 = Label("Drell-Yan QCD vertex correction", x=0, y=2)
 

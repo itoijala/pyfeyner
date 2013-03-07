@@ -18,27 +18,19 @@
 # 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #
 
-"""
-pyfeyner - a simple Python interface for making Feynman diagrams.
-"""
+"""pyfeyner - a simple Python interface for making Feynman diagrams."""
+
+import pyx
 
 version = "0.1"
 
-## Import PyX and set up some things
-import pyx
+pyx.unit.set(uscale=4, vscale=4, wscale=4, xscale=4)
+pyx.unit.set(defaultunit="cm")
 
-## Units
-pyx.unit.set(uscale = 4, vscale = 4, wscale = 4, xscale = 4)
-pyx.unit.set(defaultunit = "cm")
-
-## TeX stuff
 pyx.text.defaulttexrunner.set(mode="latex")
 if pyx.filelocator.kpsewhich().openers("hepnicenames.sty", ["tex"], "", ""):
     pyx.text.defaulttexrunner.preamble(r"\usepackage{hepnicenames}")
 else:
     print "Warning: hepnames LaTeX package not found!"
 
-## Set __all__ (for "from pyfeyner import *")
 __all__ = ["diagrams", "points", "blobs", "lines", "deco", "utils", "config"]
-
-del pyx

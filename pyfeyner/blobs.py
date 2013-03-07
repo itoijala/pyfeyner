@@ -28,9 +28,9 @@ from pyfeyner.utils import Visible
 from pyfeyner.deco import PointLabel
 from pyfeyner import config
 
-## Blob base class
+
 class Blob(Point, Visible):
-    "Base class for all blob-like objects in Feynman diagrams"
+    """Base class for all blob-like objects in Feynman diagrams"""
 
     def __init__(self):
         """Dysfunctional constructor, since this is an abstract base class."""
@@ -38,7 +38,6 @@ class Blob(Point, Visible):
         self.strokestyles = []
         self.fillstyles = []
         self.layeroffset = 1000
-        raise Exception("Blobs are an abstract base class: you can't make them!")
 
     def setStrokeStyle(self, strokestyle):
         """Set the stroke style."""
@@ -79,12 +78,16 @@ class Blob(Point, Visible):
         else:
             self.points = []
 
-    def addLabel(self, text, displace=-0.15, angle = 0, size=pyx.text.size.normalsize):
+    def addLabel(self, text, displace=-0.15, angle=0,
+                 size=pyx.text.size.normalsize):
         """Add a label."""
         if config.DEBUG:
             print "Adding label: " + text
-        self.labels.append(PointLabel(text=text, point=self,
-                                      displace=displace, angle=angle, size=size))
+        self.labels.append(PointLabel(text=text,
+                                      point=self,
+                                      displace=displace,
+                                      angle=angle,
+                                      size=size))
         if config.DEBUG:
             print "Labels = " + str(self.labels)
         return self
@@ -94,19 +97,18 @@ class Blob(Point, Visible):
         self.labels = []
         return self
 
-## Circle class (a kind of Blob)
+
 class Circle(Blob):
     """A circular blob"""
-    blobshape = "circle"
 
     def __init__(self,
-                 x = None, y = None,
-                 center = None,
-                 radius = None,
-                 fill = [pyx.color.rgb.white],
-                 stroke = [pyx.color.rgb.black],
-                 points = None):
-        """Constructor."""
+                 x=None,
+                 y=None,
+                 center=None,
+                 radius=None,
+                 fill=[pyx.color.rgb.white],
+                 stroke=[pyx.color.rgb.black],
+                 points=None):
         if radius:
             self.radius = float(radius)
         else:
@@ -125,7 +127,8 @@ class Circle(Blob):
         self.layeroffset = 1000
         self.trafos = []
         self.labels = []
-        ## Add this to the current diagram automatically
+
+        # Add this to the current diagram automatically
         FeynDiagram.currentDiagram.add(self)
 
     def getPath(self):
@@ -140,19 +143,19 @@ class Circle(Blob):
         for l in self.labels:
             l.draw(canvas)
 
-## Ellipse class (a kind of Blob)
+
 class Ellipse(Blob):
     "An elliptical blob"
-    blobshape = "ellipse"
 
     def __init__(self,
-                 x = None, y = None,
-                 center = None,
-                 xradius = None, yradius = None,
-                 fill = [pyx.color.rgb.white],
-                 stroke = [pyx.color.rgb.black],
-                 points = None):
-        """Constructor."""
+                 x=None,
+                 y=None,
+                 center=None,
+                 xradius=None,
+                 yradius=None,
+                 fill=[pyx.color.rgb.white],
+                 stroke=[pyx.color.rgb.black],
+                 points=None):
         self.layeroffset = 1000
 
         if x is not None and y is not None:
@@ -182,7 +185,8 @@ class Ellipse(Blob):
         self.strokestyles = stroke
         self.trafos = []
         self.labels = []
-        ## Add this to the current diagram automatically
+
+        # Add this to the current diagram automatically
         FeynDiagram.currentDiagram.add(self)
 
     def getXRadius(self):
@@ -231,6 +235,5 @@ class Ellipse(Blob):
         for l in self.labels:
             l.draw(canvas)
 
-__all__ = ["Blob", "Circle", "Ellipse"]
 
-del pyx, FeynDiagram, Point, Visible, PointLabel, config
+__all__ = ["Blob", "Circle", "Ellipse"]

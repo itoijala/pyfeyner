@@ -21,12 +21,14 @@
 """Utility functions and classes for pyfeyner"""
 
 import pyx
+
 from pyfeyner.diagrams import FeynDiagram
 from pyfeyner import config
 
 ## Default units
 defunit = pyx.unit.cm
 todefunit = pyx.unit.tocm
+
 
 def sign(x):
     """Get the sign of a numeric type"""
@@ -35,6 +37,7 @@ def sign(x):
     if x > 0:
         return 1
     return 0
+
 
 class Visible(object):
     def isVisible(self):
@@ -56,7 +59,7 @@ class Visible(object):
 
     def getDepth(self):
         """Return the depth at which this instance lives."""
-        if self.__dict__.has_key("depth"):
+        if "depth" in self.__dict__:
             return self.depth
         else:
             return None
@@ -70,9 +73,7 @@ class Visible(object):
             print "Comparing visible classes: ", \
                   self.__class__, "->", self.getDepth(), "vs.", \
                   other.__class__, "->", other.getDepth()
-        else:
-            return cmp(self.getDepth(), other.getDepth())
+        return cmp(self.getDepth(), other.getDepth())
+
 
 __all__ = ["defunit", "todefunit", "sign", "Visible"]
-
-del pyx, FeynDiagram, config

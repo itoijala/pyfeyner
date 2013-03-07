@@ -21,11 +21,13 @@
 """Classes for the actual diagram containers."""
 
 import pyx
+
 from pyfeyner import config
 
-## Diagram class
+
 class FeynDiagram(object):
     """The main pyfeyner diagram class."""
+
     currentDiagram = None
 
     def __init__(self, objects=None, canvas=None):
@@ -35,9 +37,9 @@ class FeynDiagram(object):
             self.__objs = []
         self.highestautolayer = 0
         if canvas is None:
-           self.currentCanvas = pyx.canvas.canvas()
+            self.currentCanvas = pyx.canvas.canvas()
         else:
-           self.currentCanvas = canvas
+            self.currentCanvas = canvas
         FeynDiagram.currentDiagram = self
 
     def add(self, *objs):
@@ -46,15 +48,14 @@ class FeynDiagram(object):
             if config.DEBUG:
                 print "#objs = %d" % len(self.__objs)
             offset = 0
-            if obj.__dict__.has_key("layeroffset"):
-                #print "offset =", obj.layeroffset
+            if "layeroffset" in obj.__dict__:
                 offset = obj.layeroffset
             self.highestautolayer += 1
             obj.setDepth(self.highestautolayer + offset)
             if config.DEBUG:
                 print "Object %s layer = %d + %d = %d" % \
-                      (obj.__class__, self.highestautolayer, offset,
-                       self.highestautolayer + offset)
+                    (obj.__class__, self.highestautolayer, offset,
+                     self.highestautolayer + offset)
             self.__objs.append(obj)
 
     def drawToCanvas(self):
@@ -64,14 +65,14 @@ class FeynDiagram(object):
         if config.VDEBUG:
             print "Running in visual debug mode"
 
-        ## Sort drawing objects by layer
+        # Sort drawing objects by layer
         drawingobjs = self.__objs
         try:
             drawingobjs.sort()
         except:
             pass
 
-        ## Draw each object
+        # Draw each object
         for obj in drawingobjs:
             if config.DEBUG:
                 print "Depth = ", obj.getDepth()
@@ -86,6 +87,5 @@ class FeynDiagram(object):
         if c is not None and outfile is not None:
             c.writetofile(outfile)
 
-__all__ = ["FeynDiagram"]
 
-del pyx, config
+__all__ = ["FeynDiagram"]
