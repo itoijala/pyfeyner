@@ -25,26 +25,18 @@ pyfeyner - a simple Python interface for making Feynman diagrams.
 version = "0.1"
 
 ## Import PyX and set up some things
-try:
-    import pyx
+import pyx
 
-    ## Check the version
-    from distutils.version import StrictVersion as Version
-    if Version(pyx.version.version) < Version("0.12.1"):
-        print "Warning: pyfeyner may not work with PyX versions older than 0.12.1!"
+## Units
+pyx.unit.set(uscale = 4, vscale = 4, wscale = 4, xscale = 4)
+pyx.unit.set(defaultunit = "cm")
 
-    ## Units
-    pyx.unit.set(uscale = 4, vscale = 4, wscale = 4, xscale = 4)
-    pyx.unit.set(defaultunit = "cm")
+## TeX stuff
+pyx.text.defaulttexrunner.set(mode="latex")
+if pyx.filelocator.kpsewhich().openers("hepnicenames.sty", ["tex"], "", ""):
+    pyx.text.defaulttexrunner.preamble(r"\usepackage{hepnicenames}")
+else:
+    print "Warning: hepnames LaTeX package not found!"
 
-    ## TeX stuff
-    pyx.text.defaulttexrunner.set(mode="latex")
-    if pyx.filelocator.kpsewhich().openers("hepnicenames.sty", ["tex"], "", ""):
-        pyx.text.defaulttexrunner.preamble(r"\usepackage{hepnicenames}")
-    else:
-        print "Warning: hepnames LaTeX package not found!"
-
-    ## Set __all__ (for "from pyfeyner import *")
-    __all__ = ["diagrams", "points", "blobs", "lines", "deco", "utils", "config"]
-except:
-    print "You don't have PyX - that's a problem unless you're just running the setup script."
+## Set __all__ (for "from pyfeyner import *")
+__all__ = ["diagrams", "points", "blobs", "lines", "deco", "utils", "config"]

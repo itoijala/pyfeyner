@@ -22,8 +22,6 @@
 
 from setuptools import setup
 
-from pyfeyner import version
-
 longdesc = """pyfeyner is a package which makes drawing Feynman diagrams simple and programmatic.
 Feynman diagrams are important constructs in perturbative field theory, so being able to draw them
 in a programmatic fashion is important if attempting to enumerate a large number of diagram
@@ -31,24 +29,23 @@ configurations is important. The output quality of pyfeyner diagrams (into PDF o
 is very high, and special effects can be obtained by using constructs from PyX, which pyfeyner
 is based around."""
 
-# Setup definition
 setup(name = 'pyfeyner',
-      version = version,
-      packages = ['pyfeyner'],
-      include_package_data = True,
-      install_requires = ['PyX >= 0.12.1'],
-      author = ['Andy Buckley', 'Georg von Hippel', 'Ismo Toijala'],
+      version = '0.1',
+      author = 'Andy Buckley, Georg von Hippel, Ismo Toijala',
+      author_email = 'ismo.toijala@gmail.com',
       url = 'https://github.com/itoijala/pyfeyner',
       description = 'An easy-to-use Python library to help physicists draw Feynman diagrams.',
       long_description = longdesc,
       keywords = 'feynman hep physics particle diagram',
-      license = 'GPL',
-      classifiers = ['Development Status :: 4 - Beta',
-                   'Environment :: Console',
-                   'Intended Audience :: Science/Research',
-                   'License :: OSI Approved :: GNU General Public License (GPL)',
-                   'Operating System :: OS Independent',
-                   'Programming Language :: Python',
-                   'Topic :: Artistic Software',
-                   'Topic :: Scientific/Engineering :: Physics']
-      )
+      license = 'GPLv2+',
+      packages = ['pyfeyner'],
+      install_requires = ['PyX'],
+      zip_safe = False,
+      classifiers = ['Development Status :: 2 - Per-Alpha',
+                     'Intended Audience :: Science/Research',
+                     'License :: OSI Approved :: GNU General Public License v2 or later (GPLv2+)',
+                     'Operating System :: OS Independent',
+                     'Programming Language :: Python :: 2',
+                     'Topic :: Scientific/Engineering :: Physics',
+                    ],
+     )
