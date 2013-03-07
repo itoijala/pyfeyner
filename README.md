@@ -1,4 +1,4 @@
-pyfeyn
+PyFeyn
 ======
 
-Fork of https://pyfeyn.hepforge.org/
+Fork of PyFeyn (https://pyfeyn.hepforge.org/)
