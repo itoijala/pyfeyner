@@ -1,0 +1,7 @@
+#!/bin/bash
+
+for f in examples/*; do
+    PYTHONPATH=. python2 "$f"
+done
+
+rm *.pdf
