@@ -21,11 +21,11 @@
 
 import pyx
 
-from pyfeyn.diagrams import FeynDiagram
-from pyfeyn.points import Point
-from pyfeyn.utils import Visible
-from pyfeyn.deco import PointLabel
-from pyfeyn import config
+from pyfeyner.diagrams import FeynDiagram
+from pyfeyner.points import Point
+from pyfeyner.utils import Visible
+from pyfeyner.deco import PointLabel
+from pyfeyner import config
 
 ## Blob base class
 class Blob(Point, Visible):

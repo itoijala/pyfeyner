@@ -20,8 +20,8 @@
 """Utility functions and classes for PyFeyn"""
 
 import pyx
-from pyfeyn.diagrams import FeynDiagram
-from pyfeyn import config
+from pyfeyner.diagrams import FeynDiagram
+from pyfeyner import config
 
 ## Default units
 defunit = pyx.unit.cm

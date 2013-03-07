@@ -20,9 +20,9 @@
 """A couple of classes for decorating diagram elements."""
 
 import pyx, math
-from pyfeyn.diagrams import FeynDiagram
-from pyfeyn.utils import Visible
-from pyfeyn import config
+from pyfeyner.diagrams import FeynDiagram
+from pyfeyner.utils import Visible
+from pyfeyner import config
 
 ## Arrow decorator class
 class Arrow(pyx.deco.deco, pyx.attr.attr):

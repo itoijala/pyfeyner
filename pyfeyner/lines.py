@@ -22,11 +22,11 @@
 import pyx, math
 from pyx import color
 
-from pyfeyn.diagrams import FeynDiagram
-from pyfeyn.points import Point
-from pyfeyn.deco import Arrow, ParallelArrow, LineLabel
-from pyfeyn.utils import Visible, defunit
-from pyfeyn import config
+from pyfeyner.diagrams import FeynDiagram
+from pyfeyner.points import Point
+from pyfeyner.deco import Arrow, ParallelArrow, LineLabel
+from pyfeyner.utils import Visible, defunit
+from pyfeyner import config
 
 ## Line base class
 class Line(Visible):

@@ -28,7 +28,7 @@
 # in2 ---------------() out2b
 #
 
-from pyfeyn.user import *
+from pyfeyner.user import *
 fd = FeynDiagram()
 
 in1 = Point(1, 7)

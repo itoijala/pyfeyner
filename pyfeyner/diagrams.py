@@ -20,7 +20,7 @@
 """Classes for the actual diagram containers."""
 
 import pyx
-from pyfeyn import config
+from pyfeyner import config
 
 ## Diagram class
 class FeynDiagram:

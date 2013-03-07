@@ -23,10 +23,10 @@ import pyx
 from copy import copy
 import math
 
-from pyfeyn.diagrams import FeynDiagram
-from pyfeyn.utils import Visible
-from pyfeyn.deco import PointLabel
-from pyfeyn import config
+from pyfeyner.diagrams import FeynDiagram
+from pyfeyner.utils import Visible
+from pyfeyner.deco import PointLabel
+from pyfeyner import config
 
 def midpoint(point1, point2):
     "Return the point midway between this point and the argument."

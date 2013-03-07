@@ -23,20 +23,19 @@ from setuptools import setup
 
 from pyfeyn import __version__
 
-longdesc = """PyFeyn is a package which makes drawing Feynman diagrams simple and programmatic.
+longdesc = """pyfeyner is a package which makes drawing Feynman diagrams simple and programmatic.
 Feynman diagrams are important constructs in perturbative field theory, so being able to draw them
 in a programmatic fashion is important if attempting to enumerate a large number of diagram
-configurations is important. The output quality of PyFeyn diagrams (into PDF or EPS formats)
-is very high, and special effects can be obtained by using constructs from PyX, which PyFeyn
+configurations is important. The output quality of pyfeyner diagrams (into PDF or EPS formats)
+is very high, and special effects can be obtained by using constructs from PyX, which pyfeyner
 is based around."""
 
 # Setup definition
-setup(name = 'pyfeyn',
+setup(name = 'pyfeyner',
       version = __version__,
-      packages = ['pyfeyn'],
+      packages = ['pyfeyner'],
       include_package_data = True,
       install_requires = ['PyX >= 0.9'],
-      scripts = ['mkfeyndiag'],
       author = ['Andy Buckley', 'Georg von Hippel'],
       author_email = 'pyfeyn@projects.hepforge.org',
       url = 'http://projects.hepforge.org/pyfeyn/',

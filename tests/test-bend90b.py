@@ -17,8 +17,8 @@
 # 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #
 
-from pyfeyn import *
-from pyfeyn.user import *
+from pyfeyner import *
+from pyfeyner.user import *
 from pyx import color
 
 fd = FeynDiagram()
