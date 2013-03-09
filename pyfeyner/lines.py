@@ -140,15 +140,9 @@ class Line(Visible):
             nx *= -1
             ny *= -1
         arcpoint = Point(middle.x() + amount * nx, middle.y() + amount * ny)
-        if config.VDEBUG:
-            FeynDiagram.currenDiagram.currentCanvas.stroke(
-                pyx.path.line(middle.x(), middle.y(), arcpoint.x(),
-                              arcpoint.y()), [color.rgb.blue])
         self.arcThru(arcpoint)
         if config.DEBUG:
             print self.getVisiblePath()
-        if config.VDEBUG:
-            FeynDiagram.currenDiagram.currentCanvas.stroke(self.getVisiblePath(), [color.rgb.blue])
         return self
 
     def set3D(self, choice):
@@ -192,8 +186,6 @@ class Line(Visible):
             cargs = (arccenter.x(), arccenter.y(), arcradius)
             circle = pyx.path.circle(*cargs)
             line = pyx.path.line(self.p1.x(), self.p1.y(), arccenter.x(), arccenter.y())
-            if config.VDEBUG:
-                FeynDiagram.currenDiagram.currentCanvas.stroke(line, [color.rgb.green])
             ass, bs = circle.intersect(line)
             subpaths = circle.split(ass[0])
             cpath = subpaths[0]
@@ -277,8 +269,6 @@ class Line(Visible):
         p1path = self.p1.getPath()
         p2path = self.p2.getPath()
         vispath = self.getPath()
-        if config.VDEBUG:
-            FeynDiagram.currenDiagram.currentCanvas.stroke(vispath, [color.rgb.green])
         if p1path:
             ass, bs = p1path.intersect(vispath)
             for b in bs:
@@ -291,13 +281,6 @@ class Line(Visible):
                         int(pyx.unit.tocm(x.arclen() - y.arclen()) /
                             math.fabs(pyx.unit.tocm(x.arclen() - y.arclen()))))
                     vispath = subpaths[-1]
-                    if config.VDEBUG:
-                        FeynDiagram.currenDiagram.currentCanvas.stroke(subpaths[0], [color.rgb.blue])
-                if config.VDEBUG:
-                    for a in ass:
-                        ix, iy = p1path.at(a)
-                        FeynDiagram.currenDiagram.currentCanvas.fill(pyx.path.circle(ix, iy, 0.05),
-                                                                     [color.rgb.green])
         if p2path:
             ass, bs = p2path.intersect(vispath)
             for b in bs:
@@ -310,15 +293,6 @@ class Line(Visible):
                         int(pyx.unit.tocm(x.arclen() - y.arclen()) /
                             math.fabs(pyx.unit.tocm(x.arclen() - y.arclen()))))
                     vispath = subpaths[-1]
-                    if config.VDEBUG:
-                        FeynDiagram.currenDiagram.currentCanvas.stroke(subpaths[0], [color.rgb.red])
-                if config.VDEBUG:
-                    for a in ass:
-                        ix, iy = p2path.at(a)
-                        FeynDiagram.currenDiagram.currentCanvas.fill(pyx.path.circle(ix, iy, 0.05),
-                                                                     [color.rgb.blue])
-        if config.VDEBUG:
-            FeynDiagram.currenDiagram.currentCanvas.stroke(vispath, [color.rgb.red])
         # return pyx.path.circle(-2, -1, 0.2)
         return vispath
 

@@ -62,8 +62,6 @@ class FeynDiagram(object):
         """Draw the components of this diagram in a well-defined order."""
         if config.DEBUG:
             print "Final #objs = %d" % len(self.__objs)
-        if config.VDEBUG:
-            print "Running in visual debug mode"
 
         # Sort drawing objects by layer
         drawingobjs = self.__objs

@@ -138,8 +138,6 @@ class ParallelArrow(Visible):
         if displacement < 0:
             normal = normal.transformed(pyx.trafo.rotate(180, x, y))
             nx, ny = normal.atend()
-        if config.VDEBUG:
-            FeynDiagram.currentDiagram.currentCanvas.stroke(normal)
 
         # Displace the arrow by this normal vector
         endx, endy = endx + (nx - x), endy + (ny - y)
@@ -231,9 +229,6 @@ class PointLabel(Label):
 
     def draw(self, canvas):
         """Draw this label on the supplied canvas."""
-        if config.VDEBUG:
-            canvas.fill(pyx.path.circle(self.point.getX(),
-                                        self.point.getY(), 0.05), [pyx.color.rgb.green])
         x = self.point.getX() + self.displace * math.cos(math.radians(self.angle))
         y = self.point.getY() + self.displace * math.sin(math.radians(self.angle))
         textattrs = pyx.attr.mergeattrs([pyx.text.halign.center,
@@ -298,8 +293,6 @@ class LineLabel(Label):
         if displacement < 0:
             normal = normal.transformed(pyx.trafo.rotate(180, x, y))
             nx, ny = normal.atend()
-        if config.VDEBUG:
-            FeynDiagram.currentDiagram.currentCanvas.stroke(normal)
 
         # Displace the label by this normal vector
         x, y = nx, ny

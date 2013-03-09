@@ -21,5 +21,4 @@
 """Runtime options."""
 
 DEBUG = False   # print debug messages
-VDEBUG = False  # visual debugging
 DRAFT = False   # turn off 3D effects for performance
