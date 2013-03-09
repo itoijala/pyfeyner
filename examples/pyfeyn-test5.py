@@ -27,8 +27,8 @@ fd = FeynDiagram()
 
 p1 = Point(-2, 0)
 p2 = Point( 2, 0)
-fa1 = MultiLine(p1, p2).bend(0.5).addArrow()
-c1 = Circle(center=p1, radius=0.5, fill=[pyx.color.rgb.red], points=[p1])
-c2 = Circle(center=p2, radius=0.5, fill=[pyx.color.rgb.blue], points=[p2])
+fd.add(MultiLine(p1, p2).bend(0.5).addArrow())
+fd.add(Circle(center=p1, radius=0.5, fill=[pyx.color.rgb.red], points=[p1]))
+fd.add(Circle(center=p2, radius=0.5, fill=[pyx.color.rgb.blue], points=[p2]))
 
 fd.draw("pyfeyn-test5.pdf")

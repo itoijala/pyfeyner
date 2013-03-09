@@ -190,9 +190,6 @@ class DecoratedPoint(Point, Visible):
         self.fillstyles = copy(fill)  # lists are mutable --
         self.strokestyles = copy(stroke)  # hence make a copy!
 
-        # Add this to the current diagram automatically
-        FeynDiagram.currentDiagram.add(self)
-
     def getPath(self):
         """Return the path belonging to the blob or marker attached to this point, if any."""
         if self.blob:

@@ -44,9 +44,6 @@ class Line(Visible):
         self.arrows = []
         self.labels = []
 
-        # Add this to the current diagram automatically
-        FeynDiagram.currentDiagram.add(self)
-
     def addLabel(self, text, pos=0.5, displace=-0.25, angle=0, size=pyx.text.size.normalsize):
         """Add a LaTeX label to this line, either via parameters or actually as
         a TeXLable object."""
@@ -325,9 +322,6 @@ class MultiLine(Line):
         self.n = n
         self.dist = dist
 
-        # Add this to the current diagram automatically
-        FeynDiagram.currentDiagram.add(self)
-
     def draw(self, canvas):
         """Draw this multiline on the supplied canvas."""
         dist = self.dist
@@ -415,9 +409,6 @@ class Gluon(DecoratedLine):
         self.extras = 0
         self.inverted = False
         self.linetype = "gluon"
-
-        # Add this to the current diagram automatically
-        FeynDiagram.currentDiagram.add(self)
 
     def set3D(self, is3D=True, skipsize=pyx.unit.length(0.04), parity=0):
         """Make this line display in '3D'."""
@@ -517,9 +508,6 @@ class Vector(DecoratedLine):
         self.frequency = frequency
         self.extrahalfs = 0
 
-        # Add this to the current diagram automatically
-        FeynDiagram.currentDiagram.add(self)
-
     def invert(self):
         """Reflect the decoration in the line itself."""
         self.inverted = not self.inverted
@@ -590,9 +578,6 @@ class Graviton(DecoratedLine):
         self.labels = []
         self.arcradius = pyx.unit.length(0.25)
         self.linetype = "graviton"
-
-        # Add this to the current diagram automatically
-        FeynDiagram.currentDiagram.add(self)
 
     def set3D(self, is3D=True, skipsize=pyx.unit.length(0.04), parity=0):
         """Make this line display in '3D'."""
@@ -702,9 +687,6 @@ class Gaugino(DecoratedLine):
         self.arcradius = pyx.unit.length(0.25)
         self.linetype = "gaugino"
 
-        # Add this to the current diagram automatically
-        FeynDiagram.currentDiagram.add(self)
-
     def set3D(self, is3D=True, skipsize=pyx.unit.length(0.04), parity=0):
         """Make the line look 3-dimensional by 'cutting' one line where self-intersections occur."""
         self.is3D = is3D
@@ -813,9 +795,6 @@ class Gluino(DecoratedLine):
         self.labels = []
         self.arcradius = pyx.unit.length(0.25)
         self.linetype = "susygluon"
-
-        # Add this to the current diagram automatically
-        FeynDiagram.currentDiagram.add(self)
 
     def set3D(self, is3D=True, skipsize=pyx.unit.length(0.04), parity=0):
         """Make this line display in '3D'."""
@@ -944,9 +923,6 @@ class Gravitino(DecoratedLine):
         self.labels = []
         self.arcradius = pyx.unit.length(0.25)
         self.linetype = "gravitino"
-
-        # Add this to the current diagram automatically
-        FeynDiagram.currentDiagram.add(self)
 
     def set3D(self, is3D=True, skipsize=pyx.unit.length(0.04), parity=0):
         """Make this line display in '3D'."""

@@ -28,16 +28,12 @@ from pyfeyner import config
 class FeynDiagram(object):
     """The main pyfeyner diagram class."""
 
-    currentDiagram = None
-
     def __init__(self, objects=None):
         """Objects for holding a set of Feynman diagram components."""
         self.__objs = objects
         if self.__objs is None:
             self.__objs = []
         self.highestautolayer = 0
-
-        FeynDiagram.currentDiagram = self
 
     def add(self, *objs):
         """Add an object to the diagram."""
@@ -54,6 +50,7 @@ class FeynDiagram(object):
                     (obj.__class__, self.highestautolayer, offset,
                      self.highestautolayer + offset)
             self.__objs.append(obj)
+        return objs
 
     def drawToCanvas(self, canvas=None):
         """Draw the components of this diagram in a well-defined order."""

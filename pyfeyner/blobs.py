@@ -128,9 +128,6 @@ class Circle(Blob):
         self.trafos = []
         self.labels = []
 
-        # Add this to the current diagram automatically
-        FeynDiagram.currentDiagram.add(self)
-
     def getPath(self):
         """Get the path of this circle blob."""
         return pyx.path.circle(self.getX(), self.getY(), self.radius)
@@ -185,9 +182,6 @@ class Ellipse(Blob):
         self.strokestyles = stroke
         self.trafos = []
         self.labels = []
-
-        # Add this to the current diagram automatically
-        FeynDiagram.currentDiagram.add(self)
 
     def getXRadius(self):
         """Get the component of the radius in the x-direction."""

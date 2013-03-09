@@ -71,9 +71,6 @@ class FreeArrow(Visible):
         self.angle = angle
         self.constriction = constriction
 
-        # Add this to the current diagram automatically
-        FeynDiagram.currentDiagram.add(self)
-
     def draw(self, canvas):
         """Draw this arrow on the supplied canvas."""
         endx, endy = self.x - self.length * math.sin(self.direction * math.pi / 180.0), \
@@ -194,9 +191,6 @@ class Label(Visible):
         self.text = text
         self.textattrs = []
         self.pos = pos
-
-        # Add this to the current diagram automatically
-        FeynDiagram.currentDiagram.add(self)
 
     def draw(self, canvas):
         """Draw this label on the supplied canvas."""
