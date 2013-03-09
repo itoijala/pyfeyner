@@ -30,16 +30,13 @@ class FeynDiagram(object):
 
     currentDiagram = None
 
-    def __init__(self, objects=None, canvas=None):
+    def __init__(self, objects=None):
         """Objects for holding a set of Feynman diagram components."""
         self.__objs = objects
         if self.__objs is None:
             self.__objs = []
         self.highestautolayer = 0
-        if canvas is None:
-            self.currentCanvas = pyx.canvas.canvas()
-        else:
-            self.currentCanvas = canvas
+
         FeynDiagram.currentDiagram = self
 
     def add(self, *objs):
@@ -58,8 +55,13 @@ class FeynDiagram(object):
                      self.highestautolayer + offset)
             self.__objs.append(obj)
 
-    def drawToCanvas(self):
+    def drawToCanvas(self, canvas=None):
         """Draw the components of this diagram in a well-defined order."""
+        if canvas is None:
+            currentCanvas = pyx.canvas.canvas()
+        else:
+            currentCanvas = canvas
+
         if config.DEBUG:
             print "Final #objs = %d" % len(self.__objs)
 
@@ -74,9 +76,9 @@ class FeynDiagram(object):
         for obj in drawingobjs:
             if config.DEBUG:
                 print "Depth = ", obj.getDepth()
-            obj.draw(self.currentCanvas)
+            obj.draw(currentCanvas)
 
-        return self.currentCanvas
+        return currentCanvas
 
     def draw(self, outfile):
         """Draw the diagram to a file, with the filetype (EPS or PDF)
