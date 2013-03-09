@@ -22,10 +22,8 @@
 
 import pyx
 
-from pyfeyner.diagrams import FeynDiagram
 from pyfeyner import config
 
-## Default units
 defunit = pyx.unit.cm
 todefunit = pyx.unit.tocm
 
