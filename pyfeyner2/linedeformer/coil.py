@@ -6,6 +6,7 @@ from pyfeyner2.linedeformer.linedeformer import LineDeformer
 class Coil(LineDeformer):
     def __init__(self):
         LineDeformer.__init__(self)
+        self.frequency = 1.3
         self.angle = 45
 
     @property

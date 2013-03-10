@@ -76,21 +76,17 @@ class LineDeformer(object):
     def parity3d(self, parity3d):
         self._parity3d = parity3d
 
-    def deform_path_single(self, path):
-        """Deform the given path to a single path."""
-        pass
-
     def deform_path(self, path):
         """Deform the given path to a sequence of paths."""
-        return [self.deform_path_single(path)]
+        pass
 
 
 class Straight(LineDeformer):
     def __init__(self):
-        LineDeformer.__init__(self, is3d=False)
+        LineDeformer.__init__(self)
 
-    def deform_path_single(self, path):
-        return path
+    def deform_path(self, path):
+        return [path]
 
 
 __all__ = ["LineDeformer", "Straight"]
