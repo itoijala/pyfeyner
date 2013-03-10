@@ -12,9 +12,11 @@ def midpoint(p1, p2):
 def distance(p1, p2):
     return math.hypot(p1.x - p2.x, p1.y - p2.y)
 
+
 def intercept(p1, p2):
     "Return the y-intercept of the straight line defined by this point and the argument."
     return p1.y - tangent(p1, p2) * p1.x
+
 
 def tangent(p1, p2):
     "Return the tangent of the straight line defined by this point and the argument."
@@ -22,6 +24,7 @@ def tangent(p1, p2):
         return (p2.y - p1.y) / (p1.x - p2.x)
     else:
         return float(10000)  # An arbitrary large number to replace infinity
+
 
 def arg(p1, p2):
     """Return the angle between the x-axis and the straight line defined
@@ -88,4 +91,4 @@ class Point(object):
         return self.x == other.x and self.y == other.y
 
 
-__all__ = ["interpolate", "midpoint", "distance", "Point"]
+__all__ = ["interpolate", "midpoint", "distance", "intercept", "tangent", "arg", "Point"]

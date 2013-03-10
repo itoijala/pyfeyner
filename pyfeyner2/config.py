@@ -4,3 +4,6 @@ config  = {"line" :
             "deformer" : "straight"
            }
           }
+
+
+__all__ = ["config"]
