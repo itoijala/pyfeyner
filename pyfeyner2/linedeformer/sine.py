@@ -141,4 +141,38 @@ class SineLine(LineDeformer):
         return paths
 
 
-__all__ = ["Sine", "DoubleSine", "SineLine"]
+class DoubleSineLine(LineDeformer):
+    def __init__(self):
+        LineDeformer.__init__(self)
+        self.frequency = 0.6
+
+    def deform_path(self, path):
+        mypath = [path,
+                  _deform_path(path, self.amplitude, self.frequency, False, False, self.extra),
+                  _deform_path(path, self.amplitude, self.frequency, True, False, self.extra)]
+        if self.mirror:
+            mypath = mypath[::-1]
+        if not self.is3d:
+            return mypath
+
+        ass, bs = mypath[0].intersect(mypath[1])
+        ass, cs = mypath[0].intersect(mypath[2])
+        ps = [ass[:], bs[:], cs[:]]
+        paths = []
+
+        for i in range(3):
+            params = []
+            for a in range(len(ps[i])):  # TODO: better endpoint cut vetoing
+                if a % 3 != i:
+                    params.append(ps[i][a] - self.skip3d)
+                    params.append(ps[i][a] + self.skip3d)
+            pathbits = mypath[i].split(params)
+            on = True
+            for pathbit in pathbits:
+                if on:
+                    paths.append(pathbit)
+                on = not on
+        return paths
+
+
+__all__ = ["Sine", "DoubleSine", "SineLine", "DoubleSineLine"]
