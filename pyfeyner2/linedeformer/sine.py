@@ -13,9 +13,12 @@ def _deform_path(path, amplitude, frequency, mirror, symmetric, extra):
         sign = -1
 
     # TODO: is this necessary?
+    ## Get list of curvature radii in the visible path
     #vispath = self.getVisiblePath()
     #curveradii = vispath.curveradius([i / 10.0 for i in range(0, 11)])
     #mincurveradius = None
+
+    ## Find the maximum curvature (set None if straight line)
     #for curveradius in curveradii:
     #    try:
     #        curveradius = abs(mincurveradius / pyx.unit.m)

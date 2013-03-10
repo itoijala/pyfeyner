@@ -1,6 +1,6 @@
 from pyfeyner2.linedeformer.linedeformer import LineDeformer, Straight
 from pyfeyner2.linedeformer.sine import Sine, DoubleSine, SineLine
-from pyfeyner2.linedeformer.coil import Coil
+from pyfeyner2.linedeformer.coil import Coil, CoilLine
 
 
 def standard_deformer(name):
@@ -10,7 +10,9 @@ standard_deformer.table = {"straight" : Straight,
                            "sine" : Sine,
                            "doublesine" : DoubleSine,
                            "sineline" : SineLine,
-                           "coil" : Coil}
+                           "coil" : Coil,
+                           "coilline" : CoilLine,
+                          }
 
 
-__all__ = ["LineDeformer", "Straight", "Sine", "DoubleSine", "SineLine", "Coil"]
+__all__ = ["LineDeformer", "Straight", "Sine", "DoubleSine", "SineLine", "Coil", "CoilLine"]

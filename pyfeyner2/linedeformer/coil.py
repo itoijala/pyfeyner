@@ -13,7 +13,29 @@ def _deform_path(path, amplitude, frequency, mirror, extra, angle):
     sign = 1
     if mirror:
         sign = -1
-    defo = pyx.deformer.cycloid(amplitude, windings, curvesperhloop=10,
+
+    # TODO: is this necessary?
+    ## Get list of curvature radii in the visible path
+    #vispath = self.getVisiblePath()
+    #curveradii = vispath.curveradius([i / 10.0 for i in range(0, 11)])
+    #mincurveradius = None
+
+    ## Find the maximum curvature (set None if straight line)
+    #for curveradius in curveradii:
+    #    try:
+    #        curveradius = abs(curvature / pyx.unit.m)
+    #        if (mincurveradius is None or curveradius < mincurveradius):
+    #            mincurveradius = curveradius
+    #    except:
+    #        pass
+
+    ## Use curvature info to increase number of curve sections
+    #numhloopcurves = 10
+    #if mincurveradius is not None:
+    #    numhloopcurves += int(0.2 / mincurveradius)
+    humhloopcurves = 10
+
+    defo = pyx.deformer.cycloid(amplitude, windings, curvesperhloop=humhloopcurves,
                                 skipfirst=0.0, skiplast=0.0, turnangle=angle, sign=sign)
     return defo.deform(path)
 
@@ -53,4 +75,69 @@ class Coil(LineDeformer):
         return paths
 
 
-__all__ = ["Coil"]
+class CoilLine(LineDeformer):
+    def __init__(self):
+        LineDeformer.__init__(self)
+        self.frequency = 1.2
+        self.angle = 45
+
+    @property
+    def angle(self):
+        return self._angle
+
+    @angle.setter
+    def angle(self, angle):
+        self._angle = angle
+
+    def deform_path(self, path):
+        mypath1 = path
+        mypath2 = _deform_path(path, self.amplitude, self.frequency, self.mirror, self.extra, self.angle)
+        if not self.is3d:
+            return [mypath1, mypath2]
+
+        ass, bs = mypath1.intersect(mypath2)
+        params1, params2 = [], []
+        paths = []
+
+        parity1 = True
+        if self.parity3d == 0:
+            parity1 = False
+        for a in ass:
+            if parity1:
+                params1.append(a - self.skip3d)
+                params1.append(a + self.skip3d)
+            parity1 = not parity1
+        pathbits1 = mypath1.split(params1)
+        on = True
+        for pathbit in pathbits1:
+            if on:
+                paths.append(pathbit)
+            on = not on
+
+        parity2 = False
+        if self.parity3d == 0:
+            parity2 = True
+
+        for b in bs:
+            if parity2:
+                params2.append(b - self.skip3d)
+                params2.append(b + self.skip3d)
+            parity2 = not parity2
+        para = pyx.deformer.parallel(0.001)
+        sas, sbs, scs = para.normpath_selfintersections(mypath2.normpath(), epsilon=0.01)
+        coil_params = []
+        for b in sbs:
+            coil_params.append(b[self.parity3d] - self.skip3d)
+            coil_params.append(b[self.parity3d] + self.skip3d)
+        params2 += coil_params
+        params2.sort()
+        pathbits2 = mypath2.split(params2)
+        on = True
+        for pathbit in pathbits2:
+            if on:
+                paths.append(pathbit)
+            on = not on
+        return paths
+
+
+__all__ = ["Coil", "CoilLine"]
