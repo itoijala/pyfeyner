@@ -4,9 +4,11 @@ import pyx
 def _clean_intersections(paths, intersections, epsilon=0.01):
     output = []
     for path, params in zip(paths, intersections):
-        if abs(pyx.unit.tocm(path.paramtoarclen(params[0]))) < epsilon:
+        if (abs(pyx.unit.tocm(path.paramtoarclen(params[0]))) < epsilon
+            or abs(pyx.unit.tocm(path.arclen()) - pyx.unit.tocm(path.paramtoarclen(params[0]))) < epsilon):
             params = params[1:]
-        if abs(pyx.unit.tocm(path.arclen()) - pyx.unit.tocm(path.paramtoarclen(params[-1]))) < epsilon:
+        if (abs(pyx.unit.tocm(path.paramtoarclen(params[-1]))) < epsilon
+            or abs(pyx.unit.tocm(path.arclen()) - pyx.unit.tocm(path.paramtoarclen(params[-1]))) < epsilon):
             params = params[:-1]
         output.append(params)
     return output
