@@ -40,7 +40,3 @@ def _deform_two_paths(paths, mirror, is3d, skip3d, parity3d):
                 output.append(pathbit)
             on = not on
     return output
-
-
-def _clean_cuts(path, intersections, epsilon=0.01):
-    return _clean_intersections([path], [intersections], epsilon)[0]
