@@ -1,6 +1,7 @@
 import pyx
 
 from pyfeyner2.linedeformer.linedeformer import LineDeformer
+from pyfeyner2.linedeformer._util import _clean_intersections
 
 
 def _deform_path(path, amplitude, frequency, mirror, extra, angle):
@@ -96,12 +97,13 @@ class CoilLine(LineDeformer):
             return [mypath1, mypath2]
 
         ass, bs = mypath1.intersect(mypath2)
+        ass, bs = _clean_intersections([mypath1, mypath2], [ass, bs])
         params1, params2 = [], []
         paths = []
 
-        parity1 = True
+        parity1 = False
         if self.parity3d == 0:
-            parity1 = False
+            parity1 = True
         for a in ass:
             if parity1:
                 params1.append(a - self.skip3d)
@@ -114,9 +116,9 @@ class CoilLine(LineDeformer):
                 paths.append(pathbit)
             on = not on
 
-        parity2 = False
+        parity2 = True
         if self.parity3d == 0:
-            parity2 = True
+            parity2 = False
 
         for b in bs:
             if parity2:

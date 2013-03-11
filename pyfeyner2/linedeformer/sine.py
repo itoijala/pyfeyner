@@ -1,6 +1,7 @@
 import pyx
 
 from pyfeyner2.linedeformer.linedeformer import LineDeformer
+from pyfeyner2.linedeformer._util import _clean_intersections, _deform_two_paths
 
 
 def _deform_path(path, amplitude, frequency, mirror, symmetric, extra):
@@ -52,47 +53,9 @@ class DoubleSine(LineDeformer):
         self.frequency = 0.6
 
     def deform_path(self, path):
-        mypath1 = _deform_path(path, self.amplitude, self.frequency, False, False, self.extra)
-        mypath2 = _deform_path(path, self.amplitude, self.frequency, True, False, self.extra)
-        if self.mirror:
-            mypath1, mypath2 = mypath2, mypath1
-        if not self.is3d:
-            return [mypath1, mypath2]
-
-        paths = []
-        ass, bs = mypath1.intersect(mypath2)
-        params1, params2 = [], []
-
-        parity1 = True
-        if self.parity3d == 0:
-            parity1 = False
-        for a in ass[1:]:  # TODO: better endpoint cut vetoing
-            if parity1:
-                params1.append(a - self.skip3d)
-                params1.append(a + self.skip3d)
-            parity1 = not parity1
-        pathbits1 = mypath1.split(params1)
-        on = True
-        for pathbit in pathbits1:
-            if on:
-                paths.append(pathbit)
-            on = not on
-
-        parity2 = False
-        if self.parity3d == 0:
-            parity2 = True
-        for b in bs[1:]:  # TODO: better endpoint cut vetoing
-            if parity2:
-                params2.append(b - self.skip3d)
-                params2.append(b + self.skip3d)
-            parity2 = not parity2
-        pathbits2 = mypath2.split(params2)
-        on = True
-        for pathbit in pathbits2:
-            if on:
-                paths.append(pathbit)
-            on = not on
-        return paths
+        return _deform_two_paths([_deform_path(path, self.amplitude, self.frequency, False, False, self.extra),
+                                  _deform_path(path, self.amplitude, self.frequency, True, False, self.extra)],
+                                  self.mirror, self.is3d, self.skip3d, self.parity3d)
 
 
 class SineLine(LineDeformer):
@@ -100,45 +63,8 @@ class SineLine(LineDeformer):
         LineDeformer.__init__(self)
 
     def deform_path(self, path):
-        mypath1 = path
-        mypath2 = _deform_path(path, self.amplitude, self.frequency, self.mirror, self.symmetric, self.extra)
-        if not self.is3d:
-            return [mypath1, mypath2]
-
-        paths = []
-        ass, bs = mypath1.intersect(mypath2)
-        params1, params2 = [], []
-
-        parity1 = True
-        if self.parity3d == 0:
-            parity1 = False
-        for a in ass:
-            if parity1:
-                params1.append(a - self.skip3d)
-                params1.append(a + self.skip3d)
-            parity1 = not parity1
-        pathbits1 = mypath1.split(params1)
-        on = True
-        for pathbit in pathbits1:
-            if on:
-                paths.append(pathbit)
-            on = not on
-
-        parity2 = False
-        if self.parity3d == 0:
-            parity2 = True
-        for b in bs:
-            if parity2:
-                params2.append(b - self.skip3d)
-                params2.append(b + self.skip3d)
-            parity2 = not parity2
-        pathbits2 = mypath2.split(params2)
-        on = True
-        for pathbit in pathbits2:
-            if on:
-                paths.append(pathbit)
-            on = not on
-        return paths
+        return _deform_two_paths([path, _deform_path(path, self.amplitude, self.frequency, self.mirror, self.symmetric, self.extra)],
+                                 False, self.is3d, self.skip3d, self.parity3d)
 
 
 class DoubleSineLine(LineDeformer):
@@ -147,32 +73,32 @@ class DoubleSineLine(LineDeformer):
         self.frequency = 0.6
 
     def deform_path(self, path):
-        mypath = [path,
+        paths = [path,
                   _deform_path(path, self.amplitude, self.frequency, False, False, self.extra),
                   _deform_path(path, self.amplitude, self.frequency, True, False, self.extra)]
         if self.mirror:
-            mypath = mypath[::-1]
+            paths = paths[::-1]
         if not self.is3d:
-            return mypath
+            return paths
 
-        ass, bs = mypath[0].intersect(mypath[1])
-        ass, cs = mypath[0].intersect(mypath[2])
-        ps = [ass[:], bs[:], cs[:]]
-        paths = []
+        ass, bs = paths[0].intersect(paths[1])
+        ass, cs = paths[0].intersect(paths[2])
+        path_intersections = _clean_intersections(paths, [ass, bs, cs])
 
-        for i in range(3):
+        output = []
+        for i, (path, intersections) in enumerate(zip(paths, path_intersections)):
             params = []
-            for a in range(len(ps[i])):  # TODO: better endpoint cut vetoing
-                if a % 3 != i:
-                    params.append(ps[i][a] - self.skip3d)
-                    params.append(ps[i][a] + self.skip3d)
-            pathbits = mypath[i].split(params)
+            for j, intersection in enumerate(intersections):
+                if j % 3 != i:
+                    params.append(intersection - self.skip3d)
+                    params.append(intersection + self.skip3d)
+            pathbits = path.split(params)
             on = True
             for pathbit in pathbits:
                 if on:
-                    paths.append(pathbit)
+                    output.append(pathbit)
                 on = not on
-        return paths
+        return output
 
 
 __all__ = ["Sine", "DoubleSine", "SineLine", "DoubleSineLine"]
