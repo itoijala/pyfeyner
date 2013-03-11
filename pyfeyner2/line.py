@@ -1,14 +1,14 @@
 import pyx
 
-from pyfeyner2.config import config
 from pyfeyner2.linedeformer import standard_deformer
 from pyfeyner2.point import midpoint, distance, arg, Point
 
 
 class Line(object):
     from pyfeyner2.util import color
+    from pyfeyner2.util import linestyle
 
-    def __init__(self, start, end, arcthru=None, bend=None, color=None, deformer=None):
+    def __init__(self, start, end, arcthru=None, bend=None, color="k", linestyle="-", deformer="straight"):
         self.start = start
         self.end = end
         if arcthru is not None:
@@ -17,11 +17,8 @@ class Line(object):
             self._arcthru = None
         if bend is not None:
             self.bend(bend)
-        if color is None:
-            color = config["line"]["color"]
         self.color = color
-        if deformer is None:
-            deformer = config["line"]["deformer"]
+        self.linestyle = linestyle
         self.deformer = deformer
 
     @property
@@ -75,8 +72,6 @@ class Line(object):
             ny *= -1
         arcpoint = (m.x + amount * nx, m.y + amount * ny)
         self.arcthru = arcpoint
-
-    # TODO: gradient? PyX seems to support them
 
     # TODO: change name?
     @property
@@ -170,7 +165,7 @@ class Line(object):
 
     def render(self, canvas):
         paths = self.deformer.deform_path(self.get_path())
-        styles = [self.color]
+        styles = [self.color, self.linestyle]
         for path in paths:
             canvas.stroke(path, styles)
 
