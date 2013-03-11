@@ -4,11 +4,12 @@ import pyx
 def _clean_intersections(paths, intersections, epsilon=0.01):
     output = []
     for path, params in zip(paths, intersections):
-        if (abs(pyx.unit.tocm(path.paramtoarclen(params[0]))) < epsilon
-            or abs(pyx.unit.tocm(path.arclen()) - pyx.unit.tocm(path.paramtoarclen(params[0]))) < epsilon):
+        arclen = pyx.unit.tocm(path.arclen())
+        arclen_start = pyx.unit.tocm(path.paramtoarclen(params[0]))
+        arclen_end = pyx.unit.tocm(path.paramtoarclen(params[-1]))
+        if abs(arclen_start) < epsilon or abs(arclen - arclen_start) < epsilon:
             params = params[1:]
-        if (abs(pyx.unit.tocm(path.paramtoarclen(params[-1]))) < epsilon
-            or abs(pyx.unit.tocm(path.arclen()) - pyx.unit.tocm(path.paramtoarclen(params[-1]))) < epsilon):
+        if abs(arclen_end) < epsilon or abs(arclen - arclen_end) < epsilon:
             params = params[:-1]
         output.append(params)
     return output
@@ -19,10 +20,7 @@ def _deform_two_paths(paths, mirror, is3d, skip3d, parity3d):
         paths = paths[::-1]
     if not is3d:
         return paths
-
-    path_intersections = paths[0].intersect(paths[1])
-    path_intersections = _clean_intersections(paths, path_intersections)
-
+    path_intersections = _clean_intersections(paths, paths[0].intersect(paths[1]))
     output = []
     for path, intersections, parity in zip(paths, path_intersections, [True, False]):
         params = []
