@@ -5,6 +5,7 @@ class LineDeformer(object):
         self.mirror = False
         self.symmetric = True
         self.extra = 0
+        self.quality = 10
         self.is3d = True
         self.skip3d = 0.04
         self.parity3d = 0
@@ -49,6 +50,14 @@ class LineDeformer(object):
     @extra.setter
     def extra(self, extra):
         self._extra = extra
+
+    @property
+    def quality(self):
+        return self._quality
+
+    @quality.setter
+    def quality(self, quality):
+        self._quality = quality
 
     @property
     def is3d(self):

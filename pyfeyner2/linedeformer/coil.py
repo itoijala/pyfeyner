@@ -4,7 +4,7 @@ from pyfeyner2.linedeformer.linedeformer import LineDeformer
 from pyfeyner2.linedeformer._util import _clean_intersections
 
 
-def _deform_path(path, amplitude, frequency, mirror, extra, angle):
+def _deform_path(path, amplitude, frequency, mirror, extra, quality, angle):
     windings = int(frequency * pyx.unit.tocm(path.arclen()) / pyx.unit.tocm(amplitude))
     # Get the whole number of windings and make sure that it's odd so we
     # don't get a weird double-back thing
@@ -15,28 +15,7 @@ def _deform_path(path, amplitude, frequency, mirror, extra, angle):
     if mirror:
         sign = -1
 
-    # TODO: is this necessary?
-    ## Get list of curvature radii in the visible path
-    #vispath = self.getVisiblePath()
-    #curveradii = vispath.curveradius([i / 10.0 for i in range(0, 11)])
-    #mincurveradius = None
-
-    ## Find the maximum curvature (set None if straight line)
-    #for curveradius in curveradii:
-    #    try:
-    #        curveradius = abs(curvature / pyx.unit.m)
-    #        if (mincurveradius is None or curveradius < mincurveradius):
-    #            mincurveradius = curveradius
-    #    except:
-    #        pass
-
-    ## Use curvature info to increase number of curve sections
-    #numhloopcurves = 10
-    #if mincurveradius is not None:
-    #    numhloopcurves += int(0.2 / mincurveradius)
-    humhloopcurves = 10
-
-    defo = pyx.deformer.cycloid(amplitude, windings, curvesperhloop=humhloopcurves,
+    defo = pyx.deformer.cycloid(amplitude, windings, curvesperhloop=quality,
                                 skipfirst=0.0, skiplast=0.0, turnangle=angle, sign=sign)
     return defo.deform(path)
 
@@ -56,7 +35,7 @@ class Coil(LineDeformer):
         self._angle = angle
 
     def deform_path(self, path):
-        mypath = _deform_path(path, self.amplitude, self.frequency, self.mirror, self.extra, self.angle)
+        mypath = _deform_path(path, self.amplitude, self.frequency, self.mirror, self.extra, self.quality, self.angle)
         if not self.is3d:
             return [mypath]
 
@@ -92,7 +71,7 @@ class CoilLine(LineDeformer):
 
     def deform_path(self, path):
         mypath1 = path
-        mypath2 = _deform_path(path, self.amplitude, self.frequency, self.mirror, self.extra, self.angle)
+        mypath2 = _deform_path(path, self.amplitude, self.frequency, self.mirror, self.extra, self.quality, self.angle)
         if not self.is3d:
             return [mypath1, mypath2]
 
