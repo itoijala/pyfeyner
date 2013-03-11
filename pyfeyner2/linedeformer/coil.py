@@ -79,7 +79,7 @@ class Coil(LineDeformer):
 class CoilLine(LineDeformer):
     def __init__(self):
         LineDeformer.__init__(self)
-        self.frequency = 1.2
+        self.frequency = 1.3
         self.angle = 45
 
     @property
