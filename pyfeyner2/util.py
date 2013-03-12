@@ -58,3 +58,34 @@ _linewidth_table = {"THIN" : pyx.style.linewidth.THIN,
                     "THIck" : pyx.style.linewidth.THIck,
                     "THICk" : pyx.style.linewidth.THICk,
                     "THICK" : pyx.style.linewidth.THICK}
+
+
+@property
+def x(self):
+    return self._x
+
+
+@x.setter
+def x(self, x):
+    self._x = x
+
+
+@property
+def y(self):
+    return self._y
+
+
+@y.setter
+def y(self, y):
+    self._y = y
+
+
+@property
+def xy(self):
+    return (self.x, self.y)
+
+
+@xy.setter
+def xy(self, xy):
+    self.x = xy[0]
+    self.y = xy[1]

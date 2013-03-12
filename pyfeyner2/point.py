@@ -63,6 +63,7 @@ class Point(object):
     fillcolor = pyfeyner2.util.create_color_property("_fillcolor")
     from pyfeyner2.util import linestyle
     from pyfeyner2.util import linewidth
+    from pyfeyner2.util import x, y, xy
 
     def __init__(self, x, y=None, marker=None, color="k", fillcolor="k", linestyle="-", linewidth="normal", size=0.075, rotation=0):
         try:
@@ -81,31 +82,6 @@ class Point(object):
         self.linewidth = linewidth
         self.size = size
         self.rotation = rotation
-
-    @property
-    def x(self):
-        return self._x
-
-    @x.setter
-    def x(self, x):
-        self._x = x
-
-    @property
-    def y(self):
-        return self._y
-
-    @y.setter
-    def y(self, y):
-        self._y = y
-
-    @property
-    def xy(self):
-        return (self.x, self.y)
-
-    @xy.setter
-    def xy(self, xy):
-        self.x = xy[0]
-        self.y = xy[1]
 
     @property
     def marker(self):
