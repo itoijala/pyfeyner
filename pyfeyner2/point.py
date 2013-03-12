@@ -3,6 +3,7 @@ import math
 import matplotlib.colors
 import pyx
 
+from pyfeyner2.label import Label
 from pyfeyner2.marker import standard_marker
 import pyfeyner2.util
 
@@ -65,7 +66,7 @@ class Point(object):
     from pyfeyner2.util import linewidth
     from pyfeyner2.util import x, y, xy
 
-    def __init__(self, x, y=None, marker=None, color="k", fillcolor="k", linestyle="-", linewidth="normal", size=0.075, rotation=0):
+    def __init__(self, x, y=None, marker=None, color="k", fillcolor="k", linestyle="-", linewidth="normal", size=0.075, rotation=0, labels=None):
         try:
             x[0]
         except TypeError:
@@ -82,6 +83,9 @@ class Point(object):
         self.linewidth = linewidth
         self.size = size
         self.rotation = rotation
+        if labels is None:
+            labels = []
+        self.labels = labels
 
     @property
     def marker(self):
@@ -109,6 +113,24 @@ class Point(object):
     def rotation(self, rotation):
         self._rotation = rotation
 
+    @property
+    def labels(self):
+        return self._labels
+
+    @labels.setter
+    def labels(self, labels):
+        if isinstance(labels, str):
+            self.add_label(labels)
+        else:
+            self._labels = labels
+
+    def add_label(self, label, displace=0.3, angle=0):
+        if isinstance(label, str):
+            label = Label(label)
+        label.x = self.x + displace * math.cos(math.radians(angle))
+        label.y = self.y + displace * math.sin(math.radians(angle))
+        self._labels.append(label)
+
     def __eq__(self, other):
         return self.x == other.x and self.y == other.y
 
@@ -121,6 +143,8 @@ class Point(object):
             stroke = [self.color, self.linestyle, self.linewidth]
             canvas.fill(path, fill)
             canvas.stroke(path, stroke)
+        for label in self.labels:
+            label.render(canvas)
 
 
 __all__ = ["interpolate", "midpoint", "distance", "intercept", "tangent", "arg", "Point"]
