@@ -3,6 +3,7 @@ import math
 import matplotlib.colors
 import pyx
 
+from pyfeyner2.marker import standard_marker
 import pyfeyner2.util
 
 
@@ -112,6 +113,8 @@ class Point(object):
 
     @marker.setter
     def marker(self, marker):
+        if isinstance(marker, str):
+            marker = standard_marker(marker)
         self._marker = marker
 
     @property

@@ -56,4 +56,14 @@ class Star(object):
                   for i in range(2 * self.rays)]).path()
 
 
+
+def standard_marker(name):
+    return standard_marker.table.get(name, None)()
+
+standard_marker.table = {"circle" : Circle,
+                         "polygon" : Polygon,
+                         "star" : Star,
+                        }
+
+
 __all__ = ["Circle", "Polygon", "Star"]
