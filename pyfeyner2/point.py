@@ -58,8 +58,9 @@ def arg(p1, p2):
 class Point(object):
     from pyfeyner2.util import color
     from pyfeyner2.util import linestyle
+    from pyfeyner2.util import linewidth
 
-    def __init__(self, x, y=None, marker=None, color="k", fillcolor="k", linestyle="-", size=0.075, rotation=0):
+    def __init__(self, x, y=None, marker=None, color="k", fillcolor="k", linestyle="-", linewidth="normal", size=0.075, rotation=0):
         try:
             x[0]
         except TypeError:
@@ -73,6 +74,7 @@ class Point(object):
         self.color = color
         self.fillcolor = fillcolor
         self.linestyle = linestyle
+        self.linewidth = linewidth
         self.size = size
         self.rotation = rotation
 
@@ -146,7 +148,7 @@ class Point(object):
                                                       .scaled(self.size, None, *self.xy)
                                                       .translated(*self.xy))
             fill = [self.fillcolor]
-            stroke = [self.color, self.linestyle]
+            stroke = [self.color, self.linestyle, self.linewidth]
             canvas.fill(path, fill)
             canvas.stroke(path, stroke)
 

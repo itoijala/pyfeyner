@@ -7,8 +7,9 @@ from pyfeyner2.point import midpoint, distance, arg, Point
 class Line(object):
     from pyfeyner2.util import color
     from pyfeyner2.util import linestyle
+    from pyfeyner2.util import linewidth
 
-    def __init__(self, start, end, arcthru=None, bend=None, color="k", linestyle="-", deformer="straight"):
+    def __init__(self, start, end, arcthru=None, bend=None, color="k", linestyle="-", linewidth="normal", deformer="straight"):
         self.start = start
         self.end = end
         if arcthru is not None:
@@ -19,6 +20,7 @@ class Line(object):
             self.bend(bend)
         self.color = color
         self.linestyle = linestyle
+        self.linewidth = linewidth
         self.deformer = deformer
 
     @property
@@ -165,7 +167,7 @@ class Line(object):
 
     def render(self, canvas):
         paths = self.deformer.deform_path(self.get_path())
-        styles = [self.color, self.linestyle]
+        styles = [self.color, self.linestyle, self.linewidth]
         for path in paths:
             canvas.stroke(path, styles)
 
