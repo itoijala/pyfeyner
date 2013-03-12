@@ -3,6 +3,8 @@ import math
 import matplotlib.colors
 import pyx
 
+import pyfeyner2.util
+
 
 def interpolate(p1, p2, fraction):
     return Point(p1.x + fraction * (p2.x - p1.x), p1.y + fraction * (p2.y - p1.y))
@@ -56,7 +58,8 @@ def arg(p1, p2):
 
 
 class Point(object):
-    from pyfeyner2.util import color
+    color = pyfeyner2.util.create_color_property()
+    fillcolor = pyfeyner2.util.create_color_property("_fillcolor")
     from pyfeyner2.util import linestyle
     from pyfeyner2.util import linewidth
 
@@ -110,18 +113,6 @@ class Point(object):
     @marker.setter
     def marker(self, marker):
         self._marker = marker
-
-    @property
-    def fillcolor(self):
-        return self._fillcolor
-
-    @fillcolor.setter
-    def fillcolor(self, fillcolor):
-        if isinstance(fillcolor, str):
-            fillcolor = matplotlib.colors.colorConverter.to_rgb(fillcolor)
-        if not isinstance(fillcolor, pyx.color.color):
-            fillcolor = pyx.color.rgb(*fillcolor)
-        self._fillcolor = fillcolor
 
     @property
     def size(self):

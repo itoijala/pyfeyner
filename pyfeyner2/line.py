@@ -2,10 +2,11 @@ import pyx
 
 from pyfeyner2.linedeformer import standard_deformer
 from pyfeyner2.point import midpoint, distance, arg, Point
+import pyfeyner2.util
 
 
 class Line(object):
-    from pyfeyner2.util import color
+    pyfeyner2.util.create_color_property()
     from pyfeyner2.util import linestyle
     from pyfeyner2.util import linewidth
 

@@ -2,18 +2,18 @@ import matplotlib.colors
 import pyx
 
 
-@property
-def color(self):
-    return self._color
+def create_color_property(name="_color", docstring="""abc"""):
+    def get(self):
+        return getattr(self, name)
 
+    def set(self, color):
+        if isinstance(color, str):
+            color = matplotlib.colors.colorConverter.to_rgb(color)
+        if not isinstance(color, pyx.color.color):
+            color = pyx.color.rgb(*color)
+        setattr(self, name, color)
 
-@color.setter
-def color(self, color):
-    if isinstance(color, str):
-        color = matplotlib.colors.colorConverter.to_rgb(color)
-    if not isinstance(color, pyx.color.color):
-        color = pyx.color.rgb(*color)
-    self._color = color
+    return property(get, set, None, docstring)
 
 
 @property
