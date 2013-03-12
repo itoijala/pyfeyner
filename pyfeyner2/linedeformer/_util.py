@@ -21,6 +21,10 @@ def _deform_two_paths(paths, mirror, is3d, skip3d, parity3d):
     if not is3d:
         return paths
     path_intersections = _clean_intersections(paths, paths[0].intersect(paths[1]))
+    return _cut_two_paths(paths, path_intersections, skip3d, parity3d)
+
+
+def _cut_two_paths(paths, path_intersections, skip3d, parity3d):
     output = []
     for path, intersections, parity in zip(paths, path_intersections, [True, False]):
         params = []

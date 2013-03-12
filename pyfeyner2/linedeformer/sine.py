@@ -1,7 +1,7 @@
 import pyx
 
 from pyfeyner2.linedeformer.linedeformer import LineDeformer
-from pyfeyner2.linedeformer._util import _clean_intersections, _deform_two_paths
+from pyfeyner2.linedeformer._util import _clean_intersections, _deform_two_paths, _cut_two_paths
 
 
 def _deform_path(path, amplitude, frequency, mirror, symmetric, extra, quality):
@@ -55,29 +55,26 @@ class DoubleSineLine(LineDeformer):
         paths = [path,
                   _deform_path(path, self.amplitude, self.frequency, False, False, self.extra, self.quality),
                   _deform_path(path, self.amplitude, self.frequency, True, False, self.extra, self.quality)]
-        if self.mirror:
-            paths = paths[::-1]
         if not self.is3d:
             return paths
 
         ass, bs = paths[0].intersect(paths[1])
         ass, cs = paths[0].intersect(paths[2])
         path_intersections = _clean_intersections(paths, [ass, bs, cs])
-
         output = []
-        for i, (path, intersections) in enumerate(zip(paths, path_intersections)):
-            params = []
-            for j, intersection in enumerate(intersections):
-                if j % 3 != i:
-                    params.append(intersection - self.skip3d)
-                    params.append(intersection + self.skip3d)
-            pathbits = path.split(params)
-            on = True
-            for pathbit in pathbits:
-                if on:
-                    output.append(pathbit)
-                on = not on
-        return output
+
+        params = []
+        for intersection in path_intersections[0]:
+                params.append(intersection - self.skip3d)
+                params.append(intersection + self.skip3d)
+        pathbits = paths[0].split(params)
+        on = True
+        for pathbit in pathbits:
+            if on:
+                output.append(pathbit)
+            on = not on
+
+        return output + _cut_two_paths(paths[1:], path_intersections[1:], self.skip3d, self.parity3d)
 
 
 __all__ = ["Sine", "DoubleSine", "SineLine", "DoubleSineLine"]
