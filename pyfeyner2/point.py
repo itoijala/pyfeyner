@@ -135,8 +135,8 @@ class Point(object):
 
     def render(self, canvas):
         if self.marker is not None:
-            path = self.marker.get_path().transformed(pyx.trafo.rotate(self.rotation, *self.xy)
-                                                      .scaled(self.size, None, *self.xy)
+            path = self.marker.get_path().transformed(pyx.trafo.rotate(self.rotation)
+                                                      .scaled(self.size)
                                                       .translated(*self.xy))
             fill = [self.fillcolor]
             stroke = [self.color, self.linestyle, self.linewidth]
