@@ -7,6 +7,7 @@ class Diagram(object):
 
     def add(self, obj):
         self._objects.append(obj)
+        return obj
 
     def render(self, canvas=None):
         if canvas is None:
