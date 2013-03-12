@@ -6,7 +6,7 @@ import pyfeyner2.util
 
 
 class Line(object):
-    pyfeyner2.util.create_color_property()
+    color = pyfeyner2.util.create_color_property()
     from pyfeyner2.util import linestyle
     from pyfeyner2.util import linewidth
 
