@@ -1,6 +1,5 @@
 import pyx
 
-import pyfeyner2.point
 import pyfeyner2.util
 
 
@@ -14,6 +13,7 @@ class Label(object):
             self.x = x
             self.y = y
         elif x is not None:
+            import pyfeyner2.point
             if isinstance(x, pyfeyner2.point.Point):
                 self.xy = x.xy
             else:
@@ -51,7 +51,14 @@ class Label(object):
     def depth(self):
         return self._depth
 
+    @property
+    def full_height(self):
+        return self.height + self.depth
+
     def render(self, canvas):
-        t = pyx.text.defaulttexrunner.text(self.x, self.y, self.text)
+        t = pyx.text.defaulttexrunner.text(self.x, self.y + self.depth, self.text)
         t.transform(pyx.trafo.rotate(self.angle, *self.xy))
         canvas.insert(t)
+
+
+__all__ = ["Label"]
