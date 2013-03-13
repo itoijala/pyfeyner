@@ -124,11 +124,22 @@ class Point(object):
         else:
             self._labels = labels
 
-    def add_label(self, label, displace=0.3, angle=0):
+    def add_label(self, label, displacement=0.3, angle=0):
         if isinstance(label, str):
             label = Label(label)
-        label.x = self.x + displace * math.cos(math.radians(angle))
-        label.y = self.y + displace * math.sin(math.radians(angle))
+        angle -= 45
+        angle -= label.angle
+        angle %= 360
+        if angle < 90:
+            x, y = angle * label.width / 90.0, 0
+        elif angle < 180:
+            x, y = label.width, (angle - 90) * label.full_height / 90.0
+        elif angle < 270:
+            x, y = (1 - (angle - 180) / 90.0) * label.width, label.full_height
+        else:
+            x, y = 0, (1 - (angle - 270) / 90.0) * label.full_height
+        x, y = pyx.trafo.rotate(label.angle).apply(x, y)
+        label.xy = pyx.trafo.translate(*pyx.trafo.rotate(angle + 45 + label.angle).apply(displacement, 0)).translated(*self.xy).apply(-x, -y)
         self._labels.append(label)
 
     def __eq__(self, other):
