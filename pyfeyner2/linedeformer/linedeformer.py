@@ -93,6 +93,7 @@ class LineDeformer(object):
 class Straight(LineDeformer):
     def __init__(self):
         LineDeformer.__init__(self)
+        self.amplitude = 0
 
     def deform_path(self, path):
         return [path]
