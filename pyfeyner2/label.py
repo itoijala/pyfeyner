@@ -55,6 +55,18 @@ class Label(object):
     def full_height(self):
         return self.height + self.depth
 
+    def get_bounding_point(self, angle):
+        angle %= 360
+        if angle < 90:
+            x, y = angle * self.width / 90.0, 0
+        elif angle < 180:
+            x, y = self.width, (angle - 90) * self.full_height / 90.0
+        elif angle < 270:
+            x, y = (1 - (angle - 180) / 90.0) * self.width, self.full_height
+        else:
+            x, y = 0, (1 - (angle - 270) / 90.0) * self.full_height
+        return pyx.trafo.rotate(self.angle).apply(x, y)
+
     def render(self, canvas):
         t = pyx.text.defaulttexrunner.text(self.x, self.y + self.depth, self.text)
         t.transform(pyx.trafo.rotate(self.angle, *self.xy))

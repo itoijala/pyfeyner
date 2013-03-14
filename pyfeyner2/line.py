@@ -1,6 +1,7 @@
 import pyx
 
 from pyfeyner2.linedeformer import standard_deformer
+from pyfeyner2.label import Label
 from pyfeyner2.point import midpoint, distance, arg, Point
 import pyfeyner2.util
 
@@ -10,7 +11,7 @@ class Line(object):
     from pyfeyner2.util import linestyle
     from pyfeyner2.util import linewidth
 
-    def __init__(self, start, end, arcthru=None, bend=None, color="k", linestyle="-", linewidth="normal", deformer="straight"):
+    def __init__(self, start, end, arcthru=None, bend=None, color="k", linestyle="-", linewidth="normal", deformer="straight", labels=None):
         self.start = start
         self.end = end
         if arcthru is not None:
@@ -23,6 +24,9 @@ class Line(object):
         self.linestyle = linestyle
         self.linewidth = linewidth
         self.deformer = deformer
+        if labels is None:
+            labels = []
+        self.labels = labels
 
     @property
     def start(self):
@@ -86,6 +90,50 @@ class Line(object):
         if isinstance(deformer, str):
             deformer = standard_deformer(deformer)
         self._deformer = deformer
+
+    @property
+    def labels(self):
+        return self._labels
+
+    @labels.setter
+    def labels(self, labels):
+        if isinstance(labels, str):
+            self.add_label(labels)
+        else:
+            self._labels = labels
+
+    def add_label(self, label, position=0.5, displacement=0.3, left=False, additional_angle=0, start=False, end=False):
+        if isinstance(label, str):
+            label = Label(label)
+        path = self.get_path()
+        if start:
+            position = 0
+        elif end:
+            position = 1
+        else:
+            if left:
+                displacement *= -1
+            if displacement > 0 or (displacement == 0 and not left):
+                displacement += self.deformer.amplitude
+            else:
+                displacement -= self.deformer.amplitude
+        posparam = path.begin() + position * path.arclen()
+        px, py = path.at(posparam)
+        tangent = path.tangent(posparam, displacement)
+        if start or end:
+            angle = arg(tangent.atbegin(), tangent.atend())
+        else:
+            normal = tangent.transformed(pyx.trafo.rotate(-90, px, py))
+            angle = arg(normal.atbegin(), normal.atend())
+        if start:
+            angle += 180
+        angle += additional_angle - 45 - label.angle
+        x, y = label.get_bounding_point(angle)
+        t = pyx.trafo.rotate(angle + 45 + label.angle).apply(displacement, 0)
+        if not start and not end and left:
+            t = pyx.trafo.rotate(180).apply(*t)
+        label.xy = pyx.trafo.translate(*t).translated(px, py).apply(-x, -y)
+        self._labels.append(label)
 
     def get_path(self):
         if self.arcthru is None:
@@ -171,6 +219,8 @@ class Line(object):
         styles = [self.color, self.linestyle, self.linewidth]
         for path in paths:
             canvas.stroke(path, styles)
+        for label in self.labels:
+            label.render(canvas)
 
 
 __all__ = ["Line"]

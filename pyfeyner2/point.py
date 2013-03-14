@@ -36,6 +36,10 @@ def tangent(p1, p2):
 def arg(p1, p2):
     """Return the angle between the x-axis and the straight line defined
     by this point and the argument (cf. complex numbers)."""
+    if not isinstance(p1, Point):
+        p1 = Point(p1)
+    if not isinstance(p2, Point):
+        p2 = Point(p2)
     arg = None
     if p2.x == p1.x:
         if p2.y > p1.y:
@@ -127,18 +131,8 @@ class Point(object):
     def add_label(self, label, displacement=0.3, angle=0):
         if isinstance(label, str):
             label = Label(label)
-        angle -= 45
-        angle -= label.angle
-        angle %= 360
-        if angle < 90:
-            x, y = angle * label.width / 90.0, 0
-        elif angle < 180:
-            x, y = label.width, (angle - 90) * label.full_height / 90.0
-        elif angle < 270:
-            x, y = (1 - (angle - 180) / 90.0) * label.width, label.full_height
-        else:
-            x, y = 0, (1 - (angle - 270) / 90.0) * label.full_height
-        x, y = pyx.trafo.rotate(label.angle).apply(x, y)
+        angle -= 45 + label.angle
+        x, y = label.get_bounding_point(angle)
         label.xy = pyx.trafo.translate(*pyx.trafo.rotate(angle + 45 + label.angle).apply(displacement, 0)).translated(*self.xy).apply(-x, -y)
         self._labels.append(label)
 
