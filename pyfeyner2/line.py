@@ -127,9 +127,9 @@ class Line(object):
             angle = arg(normal.atbegin(), normal.atend())
         if start:
             angle += 180
-        angle += additional_angle - 45 - label.angle
-        x, y = label.get_bounding_point(angle)
-        t = pyx.trafo.rotate(angle + 45 + label.angle).apply(displacement, 0)
+        angle += additional_angle
+        x, y = label.get_bounding_point(angle + 180)
+        t = pyx.trafo.rotate(angle).apply(displacement, 0)
         if not start and not end and left:
             t = pyx.trafo.rotate(180).apply(*t)
         label.xy = pyx.trafo.translate(*t).translated(px, py).apply(-x, -y)

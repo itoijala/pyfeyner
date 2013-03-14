@@ -131,9 +131,8 @@ class Point(object):
     def add_label(self, label, displacement=0.3, angle=0):
         if isinstance(label, str):
             label = Label(label)
-        angle -= 45 + label.angle
-        x, y = label.get_bounding_point(angle)
-        label.xy = pyx.trafo.translate(*pyx.trafo.rotate(angle + 45 + label.angle).apply(displacement, 0)).translated(*self.xy).apply(-x, -y)
+        x, y = label.get_bounding_point(angle + 180)
+        label.xy = pyx.trafo.translate(*pyx.trafo.rotate(angle).apply(displacement, 0)).translated(*self.xy).apply(-x, -y)
         self._labels.append(label)
 
     def __eq__(self, other):

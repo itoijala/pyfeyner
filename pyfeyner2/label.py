@@ -1,3 +1,5 @@
+import math
+
 import pyx
 
 import pyfeyner2.util
@@ -56,15 +58,24 @@ class Label(object):
         return self.height + self.depth
 
     def get_bounding_point(self, angle):
-        angle %= 360
-        if angle < 90:
-            x, y = angle * self.width / 90.0, 0
-        elif angle < 180:
-            x, y = self.width, (angle - 90) * self.full_height / 90.0
-        elif angle < 270:
-            x, y = (1 - (angle - 180) / 90.0) * self.width, self.full_height
-        else:
-            x, y = 0, (1 - (angle - 270) / 90.0) * self.full_height
+        angle -= self.angle
+        angle = math.radians(angle)
+        w, h = self.width, self.full_height
+        r = 2 * max(w, h)
+        lc = pyx.path.line(0, 0, r * math.cos(angle), r * math.sin(angle))
+        x, y = lc.atend()
+        ls = [(1, -2, 1, 2),
+              (2, 1, -2, 1),
+              (-1, 2, -1, -2),
+              (-2, -1, 2, -1)]
+        for x1, y1, x2, y2 in ls:
+            l = pyx.path.line(x1 * 0.5 * w, y1 * 0.5 * h, x2 * 0.5 * w, y2 * 0.5 * h)
+            ps = lc.intersect(l)[1]
+            if len(ps) > 0:
+                xl, yl = l.at(ps[0])
+                if xl * xl + yl * yl < x * x + y * y:
+                    x, y = xl, yl
+        x, y = pyx.trafo.translate(0.5 * w, 0.5 * h).apply(x, y)
         return pyx.trafo.rotate(self.angle).apply(x, y)
 
     def render(self, canvas):
