@@ -1,7 +1,7 @@
 import pyx
 
-from pyfeyner2.linedeformer.linedeformer import LineDeformer
-from pyfeyner2.linedeformer._util import _clean_intersections, _deform_two_paths, _cut_two_paths
+from pyfeyner2.deformer.deformer import Deformer
+from pyfeyner2.deformer._util import _clean_intersections, _deform_two_paths, _cut_two_paths
 
 
 def _deform_path(path, amplitude, frequency, mirror, symmetric, extra, quality):
@@ -18,17 +18,17 @@ def _deform_path(path, amplitude, frequency, mirror, symmetric, extra, quality):
     return defo.deform(path)
 
 
-class Sine(LineDeformer):
+class Sine(Deformer):
     def __init__(self):
-        LineDeformer.__init__(self)
+        Deformer.__init__(self)
 
     def deform_path(self, path):
         return [_deform_path(path, self.amplitude, self.frequency, self.mirror, self.symmetric, self.extra, self.quality)]
 
 
-class DoubleSine(LineDeformer):
+class DoubleSine(Deformer):
     def __init__(self):
-        LineDeformer.__init__(self)
+        Deformer.__init__(self)
         self.frequency = 0.6
 
     def deform_path(self, path):
@@ -37,18 +37,18 @@ class DoubleSine(LineDeformer):
                                   self.mirror, self.is3d, self.skip3d, self.parity3d)
 
 
-class SineLine(LineDeformer):
+class SineLine(Deformer):
     def __init__(self):
-        LineDeformer.__init__(self)
+        Deformer.__init__(self)
 
     def deform_path(self, path):
         return _deform_two_paths([path, _deform_path(path, self.amplitude, self.frequency, self.mirror, self.symmetric, self.extra, self.quality)],
                                  False, self.is3d, self.skip3d, self.parity3d)
 
 
-class DoubleSineLine(LineDeformer):
+class DoubleSineLine(Deformer):
     def __init__(self):
-        LineDeformer.__init__(self)
+        Deformer.__init__(self)
         self.frequency = 0.6
 
     def deform_path(self, path):

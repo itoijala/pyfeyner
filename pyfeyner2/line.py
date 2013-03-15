@@ -1,6 +1,6 @@
 import pyx
 
-from pyfeyner2.linedeformer import standard_deformer
+from pyfeyner2.deformer import standard_deformer
 from pyfeyner2.label import Label
 from pyfeyner2.point import midpoint, distance, arg, Point
 import pyfeyner2.util

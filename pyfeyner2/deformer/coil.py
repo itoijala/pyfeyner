@@ -1,7 +1,7 @@
 import pyx
 
-from pyfeyner2.linedeformer.linedeformer import LineDeformer
-from pyfeyner2.linedeformer._util import _clean_intersections
+from pyfeyner2.deformer.deformer import Deformer
+from pyfeyner2.deformer._util import _clean_intersections
 
 
 def _deform_path(path, amplitude, frequency, mirror, extra, quality, angle):
@@ -20,9 +20,9 @@ def _deform_path(path, amplitude, frequency, mirror, extra, quality, angle):
     return defo.deform(path)
 
 
-class Coil(LineDeformer):
+class Coil(Deformer):
     def __init__(self):
-        LineDeformer.__init__(self)
+        Deformer.__init__(self)
         self.frequency = 1.3
         self.angle = 45
 
@@ -55,9 +55,9 @@ class Coil(LineDeformer):
         return paths
 
 
-class CoilLine(LineDeformer):
+class CoilLine(Deformer):
     def __init__(self):
-        LineDeformer.__init__(self)
+        Deformer.__init__(self)
         self.frequency = 1.3
         self.angle = 45
 
