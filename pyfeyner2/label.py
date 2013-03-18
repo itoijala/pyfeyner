@@ -6,20 +6,12 @@ import pyfeyner2.util
 
 
 class Label(object):
-    from pyfeyner2.util import x, y, xy
+    from pyfeyner2.util import location
 
-    def __init__(self, text, angle=0, x=None, y=None):
+    def __init__(self, text, angle=0, location=None):
         self.text = text
         self.angle = angle
-        if x is not None and y is not None:
-            self.x = x
-            self.y = y
-        elif x is not None:
-            import pyfeyner2.point
-            if isinstance(x, pyfeyner2.point.Point):
-                self.xy = x.xy
-            else:
-                self.xy = x
+        self.location = location
 
     @property
     def text(self):
@@ -79,8 +71,8 @@ class Label(object):
         return pyx.trafo.rotate(self.angle).apply(x, y)
 
     def render(self, canvas):
-        t = pyx.text.defaulttexrunner.text(self.x, self.y + self.depth, self.text)
-        t.transform(pyx.trafo.rotate(self.angle, *self.xy))
+        t = pyx.text.defaulttexrunner.text(self.location[0], self.location[1] + self.depth, self.text)
+        t.transform(pyx.trafo.rotate(self.angle, *self.location))
         canvas.insert(t)
 
 

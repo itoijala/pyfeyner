@@ -7,11 +7,14 @@ def create_color_property(name="_color", docstring="""abc"""):
         return getattr(self, name)
 
     def set(self, color):
-        if isinstance(color, str):
-            color = matplotlib.colors.colorConverter.to_rgb(color)
-        if not isinstance(color, pyx.color.color):
-            color = pyx.color.rgb(*color)
-        setattr(self, name, color)
+        if color is None:
+            setattr(self, name, color)
+        else:
+            if isinstance(color, str):
+                color = matplotlib.colors.colorConverter.to_rgb(color)
+            if not isinstance(color, pyx.color.color):
+                color = pyx.color.rgb(*color)
+            setattr(self, name, color)
 
     return property(get, set, None, docstring)
 
@@ -61,31 +64,10 @@ _linewidth_table = {"THIN" : pyx.style.linewidth.THIN,
 
 
 @property
-def x(self):
-    return self._x
+def location(self):
+    return self._location
 
 
-@x.setter
-def x(self, x):
-    self._x = x
-
-
-@property
-def y(self):
-    return self._y
-
-
-@y.setter
-def y(self, y):
-    self._y = y
-
-
-@property
-def xy(self):
-    return (self.x, self.y)
-
-
-@xy.setter
-def xy(self, xy):
-    self.x = xy[0]
-    self.y = xy[1]
+@location.setter
+def location(self, location):
+    self._location = location

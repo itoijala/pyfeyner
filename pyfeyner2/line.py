@@ -2,7 +2,7 @@ import pyx
 
 from pyfeyner2.deformer import standard_deformer
 from pyfeyner2.label import Label
-from pyfeyner2.point import midpoint, distance, arg, Point
+from pyfeyner2.point import midpoint, distance, arg
 import pyfeyner2.util
 
 
@@ -34,8 +34,6 @@ class Line(object):
 
     @start.setter
     def start(self, start):
-        if not isinstance(start, Point):
-            start = Point(start)
         self._start = start
 
     @property
@@ -44,8 +42,6 @@ class Line(object):
 
     @end.setter
     def end(self, end):
-        if not isinstance(end, Point):
-            end = Point(end)
         self._end = end
 
     # TODO: change name
@@ -55,8 +51,6 @@ class Line(object):
 
     @arcthru.setter
     def arcthru(self, arcthru):
-        if not arcthru is None and not isinstance(arcthru, Point):
-            arcthru = Point(arcthru)
         self._arcthru = arcthru
 
     @arcthru.deleter
@@ -70,14 +64,14 @@ class Line(object):
         """Bend the line to the right by a given distance."""
         s = self.start
         m = midpoint(self.start, self.end)
-        nx = (m.y - s.y) / abs(distance(s, m))
-        ny = (s.x - m.x) / abs(distance(s, m))
-        vx = m.x - s.x
-        vy = m.y - s.y
+        nx = (m[1] - s[1]) / abs(distance(s, m))
+        ny = (s[0] - m[0]) / abs(distance(s, m))
+        vx = m[0] - s[0]
+        vy = m[1] - s[1]
         if (vx * ny - vy * nx) > 0:
             nx *= -1
             ny *= -1
-        arcpoint = (m.x + amount * nx, m.y + amount * ny)
+        arcpoint = (m[0] + amount * nx, m[1] + amount * ny)
         self.arcthru = arcpoint
 
     # TODO: change name?
@@ -132,14 +126,14 @@ class Line(object):
         t = pyx.trafo.rotate(angle).apply(displacement, 0)
         if not start and not end and left:
             t = pyx.trafo.rotate(180).apply(*t)
-        label.xy = pyx.trafo.translate(*t).translated(px, py).apply(-x, -y)
+        label.location = pyx.trafo.translate(*t).translated(px, py).apply(-x, -y)
         self._labels.append(label)
 
     def get_path(self):
         if self.arcthru is None:
             # This is a simple straight line
-            return pyx.path.path(pyx.path.moveto(*(self.start.xy)),
-                                 pyx.path.lineto(*(self.end.xy)))
+            return pyx.path.path(pyx.path.moveto(*self.start),
+                                 pyx.path.lineto(*self.end))
         elif (self.start == self.end):
             # This is a tadpole-type loop and needs special care;
             # We shall assume that the arcthrupoint is meant to be
@@ -147,9 +141,9 @@ class Line(object):
             arc_center = midpoint(self.start, self.arcthru)
             arc_radius = distance(self.start, self.arcthru) / 2.0
 
-            cargs = (arc_center.x, arc_center.y, arc_radius)
+            cargs = (arc_center[0], arc_center[1], arc_radius)
             circle = pyx.path.circle(*cargs)
-            line = pyx.path.line(self.start.x, self.start.y, arc_center.x, arc_center.y)
+            line = pyx.path.line(self.start[0], self.start[1], arc_center[0], arc_center[1])
             ass, bs = circle.intersect(line)
             subpaths = circle.split(ass[0])
             cpath = subpaths[0]
@@ -158,20 +152,20 @@ class Line(object):
             n13, n23 = None, None
             # Work out line gradients
             try:
-                n13 = (self.start.y - self.arcthru.y) / (self.start.x - self.arcthru.x)
+                n13 = (self.start[1] - self.arcthru[1]) / (self.start[0] - self.arcthru[0])
             except ZeroDivisionError:
                 n13 = 1e100
 
             try:
-                n23 = (self.end.y - self.arcthru.y) / (self.end.x - self.arcthru.x)
+                n23 = (self.end[1] - self.arcthru[1]) / (self.end[0] - self.arcthru[0])
             except ZeroDivisionError:
                 n23 = 1e100
 
             # If gradients match,
             # then we have a straight line, so bypass the complexity
             if n13 == n23:
-                return pyx.path.path(pyx.path.moveto(*(self.start.xy)),
-                                     pyx.path.lineto(*(self.end.xy)))
+                return pyx.path.path(pyx.path.moveto(*self.start),
+                                     pyx.path.lineto(*self.end))
 
             # Otherwise work out conjugate gradients and midpoints
             m13, m23 = None, None
@@ -187,31 +181,31 @@ class Line(object):
             mid23 = midpoint(self.end, self.arcthru)
 
             # Line y-intercepts
-            c13 = mid13.y - m13 * mid13.x
-            c23 = mid23.y - m23 * mid23.x
+            c13 = mid13[1] - m13 * mid13[0]
+            c23 = mid23[1] - m23 * mid23[0]
 
             # Find the centre of the arc
             xcenter = - (c23 - c13) / (m23 - m13)
             ycenter = m13 * xcenter + c13
-            arc_center = Point(xcenter, ycenter)
+            arc_center = (xcenter, ycenter)
 
             # Get the angles required for drawing the arc
             arc_radius = distance(arc_center, self.arcthru)
             arc_angle1 = arg(arc_center, self.start)
             arc_angle2 = arg(arc_center, self.end)
             arc_angle3 = arg(arc_center, self.arcthru)
-            arc_args = (arc_center.x, arc_center.y, arc_radius, arc_angle1, arc_angle2)
+            arc_args = (arc_center[0], arc_center[1], arc_radius, arc_angle1, arc_angle2)
 
             # Calculate cross product to determine direction of arc
-            vec12 = [self.end.x - self.start.x, self.end.y - self.start.y, 0.0]
-            vec13 = [self.arcthru.x - self.start.x, self.arcthru.y - self.start.y, 0.0]
+            vec12 = [self.end[0] - self.start[0], self.end[1] - self.start[1], 0.0]
+            vec13 = [self.arcthru[0] - self.start[0], self.arcthru[1] - self.start[1], 0.0]
             cross_product_z = vec12[0] * vec13[1] - vec12[1] * vec13[0]
 
             if cross_product_z < 0:
-                return pyx.path.path(pyx.path.moveto(*(self.start.xy)),
+                return pyx.path.path(pyx.path.moveto(*self.start),
                                      pyx.path.arc(*arc_args))
             else:
-                return pyx.path.path(pyx.path.moveto(*(self.start.xy)),
+                return pyx.path.path(pyx.path.moveto(*self.start),
                                      pyx.path.arcn(*arc_args))
 
     def render(self, canvas):
