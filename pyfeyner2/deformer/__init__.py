@@ -4,7 +4,7 @@ from pyfeyner2.deformer.coil import Coil, CoilLine
 
 
 def _standard_deformer(name):
-    return _standard_deformer.table.get(name, None)()
+    return _standard_deformer.table.get(name, None)
 
 _standard_deformer.table = {
         "sine" : Sine,

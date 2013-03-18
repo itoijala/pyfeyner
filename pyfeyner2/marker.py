@@ -161,7 +161,7 @@ class Star(Marker):
 
 
 def _standard_marker(name):
-    return _standard_marker.table.get(name, None)()
+    return _standard_marker.table.get(name, None)
 
 _standard_marker.table = {
         "asterisk" : Asterisk,
