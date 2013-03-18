@@ -19,17 +19,17 @@ def _deform_path(path, amplitude, frequency, mirror, symmetric, extra, quality):
 
 
 class Sine(Deformer):
-    def __init__(self):
-        Deformer.__init__(self)
+    def __init__(self, **kwargs):
+        Deformer.__init__(self, **kwargs)
 
     def deform_path(self, path):
         return [_deform_path(path, self.amplitude, self.frequency, self.mirror, self.symmetric, self.extra, self.quality)]
 
 
 class DoubleSine(Deformer):
-    def __init__(self):
-        Deformer.__init__(self)
-        self.frequency = 0.6
+    def __init__(self, frequency=0.6, **kwargs):
+        Deformer.__init__(self, **kwargs)
+        self.frequency = frequency
 
     def deform_path(self, path):
         return _deform_two_paths([_deform_path(path, self.amplitude, self.frequency, False, False, self.extra, self.quality),
@@ -38,8 +38,8 @@ class DoubleSine(Deformer):
 
 
 class SineLine(Deformer):
-    def __init__(self):
-        Deformer.__init__(self)
+    def __init__(self, **kwargs):
+        Deformer.__init__(self, **kwargs)
 
     def deform_path(self, path):
         return _deform_two_paths([path, _deform_path(path, self.amplitude, self.frequency, self.mirror, self.symmetric, self.extra, self.quality)],
@@ -47,9 +47,9 @@ class SineLine(Deformer):
 
 
 class DoubleSineLine(Deformer):
-    def __init__(self):
-        Deformer.__init__(self)
-        self.frequency = 0.6
+    def __init__(self, frequency=0.6, **kwargs):
+        Deformer.__init__(self, **kwargs)
+        self.frequency = frequency
 
     def deform_path(self, path):
         paths = [path,

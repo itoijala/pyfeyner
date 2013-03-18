@@ -21,10 +21,10 @@ def _deform_path(path, amplitude, frequency, mirror, extra, quality, angle):
 
 
 class Coil(Deformer):
-    def __init__(self):
-        Deformer.__init__(self)
-        self.frequency = 1.3
-        self.angle = 45
+    def __init__(self, frequency=1.3, angle=45, **kwargs):
+        Deformer.__init__(self, **kwargs)
+        self.frequency = frequency
+        self.angle = angle
 
     @property
     def angle(self):
@@ -56,10 +56,10 @@ class Coil(Deformer):
 
 
 class CoilLine(Deformer):
-    def __init__(self):
-        Deformer.__init__(self)
-        self.frequency = 1.3
-        self.angle = 45
+    def __init__(self, frequency=1.3, angle=45, **kwargs):
+        Deformer.__init__(self, **kwargs)
+        self.frequency = frequency
+        self.angle = angle
 
     @property
     def angle(self):

@@ -1,14 +1,14 @@
 class Deformer(object):
-    def __init__(self):
-        self.amplitude = 0.25
-        self.frequency = 1.0
-        self.mirror = False
-        self.symmetric = True
-        self.extra = 0
-        self.quality = 10
-        self.is3d = True
-        self.skip3d = 0.04
-        self.parity3d = 0
+    def __init__(self, amplitude=0.25, frequency=1.0, mirror=False, symmetric=False, extra=0, quality=10, is3d=True, skip3d=0.04, parity3d=0):
+        self.amplitude = amplitude
+        self.frequency = frequency
+        self.mirror = mirror
+        self.symmetric = symmetric
+        self.extra = extra
+        self.quality = quality
+        self.is3d = is3d
+        self.skip3d = skip3d
+        self.parity3d = parity3d
 
     @property
     def amplitude(self):
