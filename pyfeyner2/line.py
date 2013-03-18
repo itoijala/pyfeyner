@@ -82,7 +82,7 @@ class Line(object):
     @deformer.setter
     def deformer(self, deformer):
         if isinstance(deformer, str):
-            deformer = standard_deformer(deformer)
+            deformer = _standard_deformer(deformer)
         self._deformer = deformer
 
     @property

@@ -159,10 +159,10 @@ class Star(Marker):
 
 
 
-def standard_marker(name):
-    return standard_marker.table.get(name, None)()
+def _standard_marker(name):
+    return _standard_marker.table.get(name, None)()
 
-standard_marker.table = {
+_standard_marker.table = {
         "asterisk" : Asterisk,
         "circle" : Circle,
         "polygon" : Polygon,
