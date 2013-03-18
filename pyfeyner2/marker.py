@@ -73,6 +73,36 @@ class Marker(object):
             label.render(canvas)
 
 
+class Asterisk(Marker):
+    def __init__(self, location, rays=3, **kwargs):
+        Marker.__init__(self, location, **kwargs)
+        self.rays = rays
+
+    @property
+    def fillcolor(self):
+        return None
+
+    @fillcolor.setter
+    def fillcolor(self, fillcolor):
+        pass
+
+    @property
+    def rays(self):
+        return self._rays
+
+    @rays.setter
+    def rays(self, rays):
+        self._rays = rays
+
+    def get_path(self):
+        elements = []
+        for i in range(self.rays):
+            elements.append(pyx.path.moveto(0, 0))
+            elements.append(pyx.path.lineto(- math.sin(i * 2 * math.pi / self.rays),
+                                            + math.cos(i * 2 * math.pi / self.rays)))
+        return pyx.path.path(*elements)
+
+
 class Circle(Marker):
     def __init__(self, location, **kwargs):
         Marker.__init__(self, location, **kwargs)
@@ -132,10 +162,12 @@ class Star(Marker):
 def standard_marker(name):
     return standard_marker.table.get(name, None)()
 
-standard_marker.table = {"circle" : Circle,
-                         "polygon" : Polygon,
-                         "star" : Star,
-                        }
+standard_marker.table = {
+        "asterisk" : Asterisk,
+        "circle" : Circle,
+        "polygon" : Polygon,
+        "star" : Star,
+        }
 
 
 __all__ = ["Marker", "Circle", "Polygon", "Star"]
