@@ -1,6 +1,6 @@
 import pyx
 
-from pyfeyner2.deformer import standard_deformer
+from pyfeyner2.deformer import _standard_deformer
 from pyfeyner2.label import Label
 from pyfeyner2.point import midpoint, distance, arg
 import pyfeyner2._util
@@ -106,10 +106,11 @@ class Line(object):
         else:
             if left:
                 displacement *= -1
-            if displacement > 0 or (displacement == 0 and not left):
-                displacement += self.deformer.amplitude
-            else:
-                displacement -= self.deformer.amplitude
+            if self.deformer is not None:
+                if displacement > 0 or (displacement == 0 and not left):
+                    displacement += self.deformer.amplitude
+                else:
+                    displacement -= self.deformer.amplitude
         posparam = path.begin() + position * path.arclen()
         px, py = path.at(posparam)
         tangent = path.tangent(posparam, displacement)

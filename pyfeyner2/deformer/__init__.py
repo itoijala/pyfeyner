@@ -1,4 +1,4 @@
-from pyfeyner2.deformer.deformer import Deformer, Straight
+from pyfeyner2.deformer.deformer import Deformer
 from pyfeyner2.deformer.sine import Sine, DoubleSine, SineLine, DoubleSineLine
 from pyfeyner2.deformer.coil import Coil, CoilLine
 
