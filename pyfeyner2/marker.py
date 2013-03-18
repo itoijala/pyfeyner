@@ -13,14 +13,14 @@ class Marker(object):
     from pyfeyner2._util import linestyle
     from pyfeyner2._util import linewidth
 
-    def __init__(self, location, color="k", fillcolor="k", linestyle="-", linewidth="normal", size=0.075, rotation=0):
+    def __init__(self, location, color="k", fillcolor="k", linestyle="-", linewidth="normal", size=0.075, angle=0):
         self.location = location
         self.color = color
         self.fillcolor = fillcolor
         self.linestyle = linestyle
         self.linewidth = linewidth
         self.size = size
-        self.rotation = rotation
+        self.angle = angle
         self.labels = []
 
     @property
@@ -32,12 +32,12 @@ class Marker(object):
         self._size = size
 
     @property
-    def rotation(self):
-        return self._rotation
+    def angle(self):
+        return self._angle
 
-    @rotation.setter
-    def rotation(self, rotation):
-        self._rotation = rotation
+    @angle.setter
+    def angle(self, angle):
+        self._angle = angle
 
     @property
     def labels(self):
@@ -60,7 +60,7 @@ class Marker(object):
         self._labels.append(label)
 
     def render(self, canvas):
-        path = self.get_path().transformed(pyx.trafo.rotate(self.rotation)
+        path = self.get_path().transformed(pyx.trafo.rotate(self.angle)
                                            .scaled(self.size)
                                            .translated(*self.location))
         if self.fillcolor is not None:
