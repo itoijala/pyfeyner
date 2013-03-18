@@ -22,8 +22,7 @@ l4.add_label(Label("gg2", angle=0), position=0.5, left=True)
 l4.add_label(Label("gg3", angle=0), start=True)
 l4.add_label(Label("gg4", angle=0), end=True)
 
-pl = d.add(marker.Circle((0, -1.3)))
-pl.add_label(Label("texg", angle=180), angle=0)
+pl = d.add(marker.Circle((0, -1.3)).add_label(Label("texg", angle=180), angle=0))
 
 d.add(marker.Asterisk((-1, -1), rays=4, angle=45))
 

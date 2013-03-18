@@ -58,6 +58,7 @@ class Marker(object):
         x, y = label.get_bounding_point(angle + 180)
         label.location = pyx.trafo.translate(*pyx.trafo.rotate(angle).apply(displacement, 0)).translated(*self.location).apply(-x, -y)
         self._labels.append(label)
+        return self
 
     def render(self, canvas):
         path = self.get_path().transformed(pyx.trafo.rotate(self.angle)

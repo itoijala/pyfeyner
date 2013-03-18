@@ -11,7 +11,7 @@ class Line(object):
     from pyfeyner2._util import linestyle
     from pyfeyner2._util import linewidth
 
-    def __init__(self, start, end, arcthru=None, bend=None, color="k", linestyle="-", linewidth="normal", deformer="straight", labels=None):
+    def __init__(self, start, end, arcthru=None, bend=None, color="k", linestyle="-", linewidth="normal", deformer=None):
         self.start = start
         self.end = end
         if arcthru is not None:
@@ -24,9 +24,7 @@ class Line(object):
         self.linestyle = linestyle
         self.linewidth = linewidth
         self.deformer = deformer
-        if labels is None:
-            labels = []
-        self.labels = labels
+        self.labels = []
 
     @property
     def start(self):
@@ -92,6 +90,7 @@ class Line(object):
     @labels.setter
     def labels(self, labels):
         if isinstance(labels, str):
+            self.labels = []
             self.add_label(labels)
         else:
             self._labels = labels
@@ -128,6 +127,7 @@ class Line(object):
             t = pyx.trafo.rotate(180).apply(*t)
         label.location = pyx.trafo.translate(*t).translated(px, py).apply(-x, -y)
         self._labels.append(label)
+        return self
 
     def get_path(self):
         if self.arcthru is None:
