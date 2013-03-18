@@ -54,6 +54,7 @@ class Marker(object):
     def add_label(self, label, displacement=0.3, angle=0):
         if isinstance(label, str):
             label = Label(label)
+        displacement += self.size
         x, y = label.get_bounding_point(angle + 180)
         label.location = pyx.trafo.translate(*pyx.trafo.rotate(angle).apply(displacement, 0)).translated(*self.location).apply(-x, -y)
         self._labels.append(label)
