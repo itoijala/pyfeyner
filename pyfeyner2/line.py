@@ -209,7 +209,10 @@ class Line(object):
                                      pyx.path.arcn(*arc_args))
 
     def render(self, canvas):
-        paths = self.deformer.deform_path(self.get_path())
+        if self.deformer is not None:
+            paths = self.deformer.deform_path(self.get_path())
+        else:
+            paths = [self.get_path()]
         styles = [self.color, self.linestyle, self.linewidth]
         for path in paths:
             canvas.stroke(path, styles)

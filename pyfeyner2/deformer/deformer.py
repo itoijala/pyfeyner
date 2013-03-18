@@ -90,13 +90,4 @@ class Deformer(object):
         pass
 
 
-class Straight(Deformer):
-    def __init__(self):
-        Deformer.__init__(self)
-        self.amplitude = 0
-
-    def deform_path(self, path):
-        return [path]
-
-
-__all__ = ["Deformer", "Straight"]
+__all__ = ["Deformer"]

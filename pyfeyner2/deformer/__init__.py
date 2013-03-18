@@ -7,7 +7,6 @@ def _standard_deformer(name):
     return _standard_deformer.table.get(name, None)()
 
 _standard_deformer.table = {
-        "straight" : Straight,
         "sine" : Sine,
         "doublesine" : DoubleSine,
         "sineline" : SineLine,
@@ -17,4 +16,4 @@ _standard_deformer.table = {
         }
 
 
-__all__ = ["Deformer", "Straight", "Sine", "DoubleSine", "SineLine", "DoubleSineLine", "Coil", "CoilLine"]
+__all__ = ["Deformer", "Sine", "DoubleSine", "SineLine", "DoubleSineLine", "Coil", "CoilLine"]
