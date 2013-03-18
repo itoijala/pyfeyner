@@ -3,13 +3,13 @@ import pyx
 from pyfeyner2.deformer import standard_deformer
 from pyfeyner2.label import Label
 from pyfeyner2.point import midpoint, distance, arg
-import pyfeyner2.util
+import pyfeyner2._util
 
 
 class Line(object):
-    color = pyfeyner2.util.create_color_property()
-    from pyfeyner2.util import linestyle
-    from pyfeyner2.util import linewidth
+    color = pyfeyner2._util.create_color_property()
+    from pyfeyner2._util import linestyle
+    from pyfeyner2._util import linewidth
 
     def __init__(self, start, end, arcthru=None, bend=None, color="k", linestyle="-", linewidth="normal", deformer="straight", labels=None):
         self.start = start

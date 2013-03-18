@@ -3,15 +3,15 @@ import math
 import pyx
 
 from pyfeyner2.label import Label
-import pyfeyner2.util
+import pyfeyner2._util
 
 
 class Marker(object):
-    from pyfeyner2.util import location
-    color = pyfeyner2.util.create_color_property()
-    fillcolor = pyfeyner2.util.create_color_property("_fillcolor")
-    from pyfeyner2.util import linestyle
-    from pyfeyner2.util import linewidth
+    from pyfeyner2._util import location
+    color = pyfeyner2._util.create_color_property()
+    fillcolor = pyfeyner2._util.create_color_property("_fillcolor")
+    from pyfeyner2._util import linestyle
+    from pyfeyner2._util import linewidth
 
     def __init__(self, location, color="k", fillcolor="k", linestyle="-", linewidth="normal", size=0.075, rotation=0):
         self.location = location

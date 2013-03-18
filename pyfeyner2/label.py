@@ -2,11 +2,11 @@ import math
 
 import pyx
 
-import pyfeyner2.util
+import pyfeyner2._util
 
 
 class Label(object):
-    from pyfeyner2.util import location
+    from pyfeyner2._util import location
 
     def __init__(self, text, angle=0, location=None):
         self.text = text
