@@ -71,3 +71,37 @@ def location(self):
 @location.setter
 def location(self, location):
     self._location = location
+
+
+@property
+def size(self):
+    return self._size
+
+
+@size.setter
+def size(self, size):
+    self._size = size
+
+
+@property
+def angle(self):
+    return self._angle
+
+
+@angle.setter
+def angle(self, angle):
+    self._angle = angle
+
+
+@property
+def labels(self):
+    return self._labels
+
+
+@labels.setter
+def labels(self, labels):
+    if isinstance(labels, str):
+        self.labels = []
+        self.add_label(labels)
+    else:
+        self._labels = labels

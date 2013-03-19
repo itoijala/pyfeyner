@@ -10,6 +10,7 @@ class Line(object):
     color = pyfeyner2._util.create_color_property()
     from pyfeyner2._util import linestyle
     from pyfeyner2._util import linewidth
+    from pyfeyner2._util import labels
 
     def __init__(self, start, end, arcthru=None, bend=None, color="k", linestyle="-", linewidth="normal", deformer=None):
         self.start = start
@@ -82,18 +83,6 @@ class Line(object):
         if isinstance(deformer, str):
             deformer = _standard_deformer(deformer)()
         self._deformer = deformer
-
-    @property
-    def labels(self):
-        return self._labels
-
-    @labels.setter
-    def labels(self, labels):
-        if isinstance(labels, str):
-            self.labels = []
-            self.add_label(labels)
-        else:
-            self._labels = labels
 
     def add_label(self, label, position=0.5, displacement=0.3, left=False, additional_angle=0, start=False, end=False):
         if isinstance(label, str):

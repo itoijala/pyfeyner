@@ -8,10 +8,13 @@ import pyfeyner2._util
 
 class Marker(object):
     from pyfeyner2._util import location
+    from pyfeyner2._util import size
+    from pyfeyner2._util import angle
     color = pyfeyner2._util.create_color_property()
     fillcolor = pyfeyner2._util.create_color_property("_fillcolor")
     from pyfeyner2._util import linestyle
     from pyfeyner2._util import linewidth
+    from pyfeyner2._util import labels
 
     def __init__(self, location, color="k", fillcolor="k", linestyle="-", linewidth="normal", size=0.075, angle=0):
         self.location = location
@@ -22,34 +25,6 @@ class Marker(object):
         self.size = size
         self.angle = angle
         self.labels = []
-
-    @property
-    def size(self):
-        return self._size
-
-    @size.setter
-    def size(self, size):
-        self._size = size
-
-    @property
-    def angle(self):
-        return self._angle
-
-    @angle.setter
-    def angle(self, angle):
-        self._angle = angle
-
-    @property
-    def labels(self):
-        return self._labels
-
-    @labels.setter
-    def labels(self, labels):
-        if isinstance(labels, str):
-            self.labels = []
-            self.add_label(labels)
-        else:
-            self._labels = labels
 
     def add_label(self, label, displacement=0.3, angle=0):
         if isinstance(label, str):
@@ -157,7 +132,6 @@ class Star(Marker):
         return pyx.box.polygon([(- (1 - self.raysize * (i % 2)) * math.sin(i * math.pi / self.rays),
                                  + (1 - self.raysize * (i % 2)) * math.cos(i * math.pi / self.rays))
                   for i in range(2 * self.rays)]).path()
-
 
 
 def _standard_marker(name):
