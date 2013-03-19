@@ -36,17 +36,35 @@ class Marker(object):
         return self
 
     def render(self, canvas):
-        path = self.get_path().transformed(pyx.trafo.rotate(self.angle)
-                                           .scaled(self.size)
-                                           .translated(*self.location))
-        if self.fillcolor is not None:
-            fill = [self.fillcolor]
-            canvas.fill(path, fill)
-        if self.color is not None:
-            stroke = [self.color, self.linestyle, self.linewidth]
-            canvas.stroke(path, stroke)
+        path = self.get_path()
+        if path is not None:
+            path = path.transformed(pyx.trafo.rotate(self.angle)
+                                               .scaled(self.size)
+                                               .translated(*self.location))
+            if self.fillcolor is not None:
+                fill = [self.fillcolor]
+                canvas.fill(path, fill)
+            if self.color is not None:
+                stroke = [self.color, self.linestyle, self.linewidth]
+                canvas.stroke(path, stroke)
         for label in self.labels:
             label.render(canvas)
+
+
+class Dummy(Marker):
+    def __init__(self, location, **kwargs):
+        Marker.__init__(self, location, **kwargs)
+
+    @property
+    def size(self):
+        return 0
+
+    @size.setter
+    def size(self, size):
+        pass
+
+    def get_path(self):
+        return None
 
 
 class Asterisk(Marker):
@@ -138,6 +156,7 @@ def _standard_marker(name):
     return _standard_marker.table.get(name, None)
 
 _standard_marker.table = {
+        "dummy" : Dummy,
         "asterisk" : Asterisk,
         "circle" : Circle,
         "polygon" : Polygon,
@@ -145,4 +164,4 @@ _standard_marker.table = {
         }
 
 
-__all__ = ["Marker", "Circle", "Polygon", "Star"]
+__all__ = ["Marker", "Dummy", "Circle", "Polygon", "Star"]

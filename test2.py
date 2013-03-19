@@ -25,5 +25,6 @@ l4.label(Label("gg4", angle=0), end=True)
 pl = d.add(marker.Circle((0, -1.3)).label(Label("texg", angle=180), angle=0))
 
 d.add(marker.Asterisk((-1, -1), rays=4, angle=45))
+d.add(marker.Dummy((-1, 1)).label("bar"))
 
 d.save("a.pdf")
