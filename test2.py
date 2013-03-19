@@ -4,6 +4,7 @@ from pyfeyner2.line import Line
 import pyfeyner2.point
 from pyfeyner2.label import Label
 import pyfeyner2.marker as marker
+import pyfeyner2.blob as blob
 
 d = Diagram()
 p1 = d.add(marker.Ellipse((-2, 0)))
@@ -26,5 +27,7 @@ pl = d.add(marker.Ellipse((0, -1.3), yscale=3).label(Label("texg", angle=180), a
 
 d.add(marker.Asterisk((-1, -1), rays=4, angle=45))
 d.add(marker.Dummy((-1, 1)).label("bar"))
+
+d.add(blob.Ellipse((1, 1), yscale=2))
 
 d.save("a.pdf")
