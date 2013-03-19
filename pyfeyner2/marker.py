@@ -97,12 +97,24 @@ class Asterisk(Marker):
         return pyx.path.path(*elements)
 
 
-class Circle(Marker):
-    def __init__(self, location, **kwargs):
+class Ellipse(Marker):
+    def __init__(self, location, yscale=1, **kwargs):
         Marker.__init__(self, location, **kwargs)
+        self.yscale = yscale
+
+    @property
+    def yscale(self):
+        return self._yscale
+
+    @yscale.setter
+    def yscale(self, yscale):
+        if yscale > 1:
+            self.angle += 90
+            yscale = 1.0 / yscale
+        self._yscale = yscale
 
     def get_path(self):
-        return pyx.path.circle(0, 0, 1).path()
+        return pyx.path.circle(0, 0, 1).transformed(pyx.trafo.scale(1, self.yscale))
 
 
 class Polygon(Marker):
@@ -158,10 +170,10 @@ def _standard_marker(name):
 _standard_marker.table = {
         "dummy" : Dummy,
         "asterisk" : Asterisk,
-        "circle" : Circle,
+        "ellipse" : Ellipse,
         "polygon" : Polygon,
         "star" : Star,
         }
 
 
-__all__ = ["Marker", "Dummy", "Circle", "Polygon", "Star"]
+__all__ = ["Marker", "Dummy", "Ellipse", "Polygon", "Star"]
