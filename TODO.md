@@ -9,6 +9,7 @@
 	* multiline
 	* more markers
 		* arrow
+		* circle -> ellipse
 * braces
 * matplotlib style rc-file for defaults (for all lines, special lines, inheritance)
 	* python code

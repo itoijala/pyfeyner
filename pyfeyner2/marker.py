@@ -26,7 +26,7 @@ class Marker(object):
         self.angle = angle
         self.labels = []
 
-    def add_label(self, label, displacement=0.3, angle=0):
+    def label(self, label, displacement=0.3, angle=0):
         if isinstance(label, str):
             label = Label(label)
         displacement += self.size

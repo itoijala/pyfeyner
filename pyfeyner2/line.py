@@ -84,7 +84,7 @@ class Line(object):
             deformer = _standard_deformer(deformer)()
         self._deformer = deformer
 
-    def add_label(self, label, position=0.5, displacement=0.3, left=False, additional_angle=0, start=False, end=False):
+    def label(self, label, position=0.5, displacement=0.3, left=False, additional_angle=0, start=False, end=False):
         if isinstance(label, str):
             label = Label(label)
         path = self.get_path()
