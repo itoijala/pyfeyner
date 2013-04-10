@@ -10,6 +10,8 @@
 	* more markers
 		* arrow
 * braces
+* blob point on edge (0 to 1)
+* point on line (0 to 1)
 * matplotlib style rc-file for defaults (for all lines, special lines, inheritance)
 	* python code
 * matplotlib/pyplot style API
