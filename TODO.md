@@ -9,6 +9,7 @@
 	* multiline
 	* more markers
 		* arrow
+* zig-zag deformer
 * braces
 * blob point on edge (0 to 1)
 * point on line (0 to 1)
